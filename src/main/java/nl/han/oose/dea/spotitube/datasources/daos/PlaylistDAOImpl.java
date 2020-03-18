@@ -77,5 +77,21 @@ public class PlaylistDAOImpl implements PlaylistDAO {
             dbConnection.closeConnection();
         }
     }
+
+    @Override
+    public void update(String token, int id, PlaylistDTO playlistDTO) {
+        try {
+            connection = dbConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE playlist SET name = ? WHERE playlist_id = ? AND token = ?");
+            preparedStatement.setString(1, playlistDTO.getName());
+            preparedStatement.setInt(2, id);
+            preparedStatement.setString(3, token);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            dbConnection.closeConnection();
+        }
+    }
 }
 

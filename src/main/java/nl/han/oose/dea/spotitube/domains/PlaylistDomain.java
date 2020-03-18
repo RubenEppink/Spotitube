@@ -28,6 +28,12 @@ public class PlaylistDomain {
         playlistDAO.create(token, playlistDTO);
         return getAll(token);
     }
+
+
+    public PlaylistsDTO update(String token, int id, PlaylistDTO playlistDTO) {
+        playlistDAO.update(token, id, playlistDTO);
+        return getAll(token);
+    }
 }
 
 

@@ -37,4 +37,13 @@ public class PlaylistController {
     public Response addPlaylist(PlaylistDTO playlistDTO, @QueryParam("token") String token) {
         return Response.status(201).entity(playlistDomain.create(token, playlistDTO)).build();
     }
+
+
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/{id}")
+    public Response editPlaylistName(@QueryParam("token") String token, @PathParam("id") int id, PlaylistDTO playlistDTO){
+        return Response.status(200).entity(playlistDomain.update(token, id, playlistDTO)).build();
+    }
 }
