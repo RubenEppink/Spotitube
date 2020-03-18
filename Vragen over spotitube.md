@@ -18,3 +18,9 @@
    - TINYINT(1) = boolean?
 
 5. Wat is REST nou precies? Is het de manier waarop je met endpoints gegevens kan uitwisselen, vaak in combinatie met de HTTP methodes: GET, POST, PUT, DELETE etc? 
+
+6. Unittests
+
+   - Meerdere dingen in één test, zoals response entity en status in zelfde methode testen? of meerdere malen verify?
+   - void methods zoals delete playlist testen?
+
