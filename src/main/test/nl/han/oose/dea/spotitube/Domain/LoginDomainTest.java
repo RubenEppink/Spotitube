@@ -2,12 +2,12 @@ package nl.han.oose.dea.spotitube.Domain;
 
 import nl.han.oose.dea.spotitube.controllers.dto.LoginDTO;
 import nl.han.oose.dea.spotitube.controllers.dto.UserDTO;
+import nl.han.oose.dea.spotitube.controllers.exceptions.InvalidCredentialsException;
 import nl.han.oose.dea.spotitube.datasources.dao.interfaces.LoginDAO;
 import nl.han.oose.dea.spotitube.datasources.dao.interfaces.UserDAO;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import javax.ws.rs.core.Response;
 
 import static org.mockito.Mockito.*;
 
@@ -51,47 +51,14 @@ class LoginDomainTest {
         when(loginDomainUnderTest.userDAO.read("ruben")).thenReturn(userDTO);
 
         // Run the test
-        final Response result = loginDomainUnderTest.login(loginDTO);
+        final UserDTO result = loginDomainUnderTest.validateCredentials(loginDTO);
 
         // Verify the results
         verify(mockedUserDAO).read("ruben");
     }
 
     @Test
-    void testLoginResponseStatus() {
-        // Setup
-        final LoginDTO loginDTO = new LoginDTO("ruben", "wachtwoord");
-        final UserDTO userDTO = new UserDTO("123456", "lmfao");
-
-        when(loginDomainUnderTest.loginDAO.read("ruben")).thenReturn(loginDTO);
-        when(loginDomainUnderTest.userDAO.read("ruben")).thenReturn(userDTO);
-
-        // Run the test
-        final Response result = loginDomainUnderTest.login(loginDTO);
-
-        // Verify the results
-        Assertions.assertEquals(201, result.getStatus());
-
-    }
-
-    @Test
-    void testLoginResponseEntity() {
-        // Setup
-        final LoginDTO loginDTO = new LoginDTO("ruben", "wachtwoord");
-        final UserDTO userDTO = new UserDTO("123456", "lmfao");
-
-        when(loginDomainUnderTest.loginDAO.read("ruben")).thenReturn(loginDTO);
-        when(loginDomainUnderTest.userDAO.read("ruben")).thenReturn(userDTO);
-
-        // Run the test
-        final Response result = loginDomainUnderTest.login(loginDTO);
-
-        // Verify the results
-        Assertions.assertEquals(userDTO, result.getEntity());
-    }
-
-    @Test
-    void testLoginThrowsException() {
+    void testValidateCredentialsThrowsException() {
         // Setup
         final LoginDTO loginDTO = new LoginDTO("ruben", "wachtwoord");
         final UserDTO userDTO = new UserDTO("123456", "lmfao");
@@ -101,6 +68,40 @@ class LoginDomainTest {
 
         // Run the test
         // Verify the results
-        Assertions.assertThrows(InvalidCredentialsException.class, () -> loginDomainUnderTest.login(loginDTO));
+        Assertions.assertThrows(InvalidCredentialsException.class, () -> loginDomainUnderTest.validateCredentials(loginDTO));
     }
+
+    @Test
+    void testValidateCredentialsReturnsUserDTO() {
+        // Setup
+        final LoginDTO loginDTO = new LoginDTO("ruben", "wachtwoord");
+        final UserDTO userDTO = new UserDTO("123456", "lmfao");
+
+        when(loginDomainUnderTest.loginDAO.read("ruben")).thenReturn(loginDTO);
+        when(loginDomainUnderTest.userDAO.read("ruben")).thenReturn(userDTO);
+
+        // Run the test
+        final UserDTO result = loginDomainUnderTest.validateCredentials(loginDTO);
+
+        // Verify the results
+        Assertions.assertEquals(userDTO, result);
+    }
+
+    @Test
+    void testValidateCredentialsLoginReadReturnsLoginDTO() {
+        // Setup
+        final LoginDTO loginDTO = new LoginDTO("ruben", "wachtwoord");
+        final UserDTO userDTO = new UserDTO("123456", "lmfao");
+
+        when(loginDomainUnderTest.loginDAO.read("ruben")).thenReturn(loginDTO);
+        when(loginDomainUnderTest.userDAO.read("ruben")).thenReturn(userDTO);
+
+        // Run the test
+        final LoginDTO result = mockedLoginDAO.read("ruben");
+
+        // Verify the results
+        Assertions.assertEquals(loginDTO, result);
+    }
+
+
 }
