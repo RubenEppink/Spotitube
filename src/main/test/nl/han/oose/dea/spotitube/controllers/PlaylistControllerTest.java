@@ -1,9 +1,9 @@
 package nl.han.oose.dea.spotitube.controllers;
 
-import nl.han.oose.dea.spotitube.Domain.PlaylistDomain;
-import nl.han.oose.dea.spotitube.controllers.dto.PlaylistDTO;
-import nl.han.oose.dea.spotitube.controllers.dto.PlaylistsDTO;
-import nl.han.oose.dea.spotitube.controllers.dto.TrackDTO;
+import nl.han.oose.dea.spotitube.domains.PlaylistDomain;
+import nl.han.oose.dea.spotitube.controllers.dtos.PlaylistDTO;
+import nl.han.oose.dea.spotitube.controllers.dtos.PlaylistsDTO;
+import nl.han.oose.dea.spotitube.controllers.dtos.TrackDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

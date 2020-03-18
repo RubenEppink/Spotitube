@@ -1,10 +1,7 @@
 package nl.han.oose.dea.spotitube.controllers;
 
-import nl.han.oose.dea.spotitube.Domain.LoginDomain;
-import nl.han.oose.dea.spotitube.controllers.dto.LoginDTO;
-import nl.han.oose.dea.spotitube.controllers.exceptions.InvalidCredentialsException;
-import nl.han.oose.dea.spotitube.datasources.dao.interfaces.LoginDAO;
-import nl.han.oose.dea.spotitube.datasources.dao.interfaces.UserDAO;
+import nl.han.oose.dea.spotitube.domains.LoginDomain;
+import nl.han.oose.dea.spotitube.controllers.dtos.LoginDTO;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
