@@ -2,6 +2,8 @@ package nl.han.oose.dea.spotitube.controllers;
 
 import nl.han.oose.dea.spotitube.controllers.dtos.PlaylistDTO;
 import nl.han.oose.dea.spotitube.controllers.dtos.PlaylistsDTO;
+import nl.han.oose.dea.spotitube.controllers.dtos.TrackDTO;
+import nl.han.oose.dea.spotitube.controllers.dtos.TracksDTO;
 import nl.han.oose.dea.spotitube.domains.PlaylistDomain;
 
 import javax.inject.Inject;
@@ -46,4 +48,14 @@ public class PlaylistController {
     public Response editPlaylistName(@QueryParam("token") String token, @PathParam("id") int id, PlaylistDTO playlistDTO){
         return Response.status(200).entity(playlistDomain.update(token, id, playlistDTO)).build();
     }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{id}/tracks")
+    public Response getTracksFromPlaylist(@QueryParam("token") String token, @PathParam("id") int id){
+        return Response.status(200).entity(playlistDomain.getAllTracksInPlaylist(token, id)).build();
+
+    }
+
+
 }
