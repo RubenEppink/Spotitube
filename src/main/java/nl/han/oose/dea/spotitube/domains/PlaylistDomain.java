@@ -10,21 +10,12 @@ import javax.inject.Inject;
 
 public class PlaylistDomain {
     PlaylistDAO playlistDAO;
-    TrackDAO trackDAO;
-
-    @Inject
-    public void setTrackDAO(TrackDAO trackDAO) {
-        this.trackDAO = trackDAO;
-    }
 
     @Inject
     public void setPlaylistDAO(PlaylistDAO playlistDAO) {
         this.playlistDAO = playlistDAO;
     }
 
-    public TracksDTO getAllTracksInPlaylist(String token, int id) {
-        return trackDAO.getAllInPlaylist(token, id);
-    }
 
     public PlaylistsDTO getAll(String token) {
         return playlistDAO.getAll(token);

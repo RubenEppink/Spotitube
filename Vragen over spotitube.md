@@ -24,3 +24,8 @@
    - Meerdere dingen in één test, zoals response entity en status in zelfde methode testen? of meerdere malen verify?
    - void methods zoals delete playlist testen?
 
+7.   The server is responsible for generating a unique id, and setting the 'owner' variable accordingly. These must be set on the response object. 
+
+   - owner is altijd true bij create?
+
+8. Stel je hebt twee accounts, beide hebben dezelfde playlist. één van hun is owner van de playlist en kan hem dus aanpassen. Wil je dat deze aanpassingen voor de ander ook zichtbaar is? delen ze deze instantie van een playlist dus, of moet ieder zijn eigen instantie van een playlist hebben?

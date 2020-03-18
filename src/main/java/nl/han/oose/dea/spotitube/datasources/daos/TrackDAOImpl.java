@@ -23,7 +23,7 @@ public class TrackDAOImpl implements TrackDAO {
 
     @Override
     public TracksDTO getAllNotInPlaylist(String token, int playlistId) {
-       TracksDTO tracksDTO = new TracksDTO();
+        TracksDTO tracksDTO = new TracksDTO();
 
         try {
             connection = dbConnection.getConnection();
@@ -50,7 +50,7 @@ public class TrackDAOImpl implements TrackDAO {
                         resultSet.getString("publication_date"),
                         resultSet.getString("description"),
                         resultSet.getBoolean("offline_available")
-                        ));
+                ));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -101,10 +101,20 @@ public class TrackDAOImpl implements TrackDAO {
         return tracksDTO;
     }
 
-
     @Override
-    public void delete(int id, String token) {
-
+    public void delete(String token, int playlistId, int trackId) {
+        try {
+            connection = dbConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM track_in_playlist " +
+                    "WHERE playlist_id = ? AND track_id = ?");
+            preparedStatement.setInt(1, playlistId);
+            preparedStatement.setInt(2, trackId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            dbConnection.closeConnection();
+        }
     }
 
     @Override
