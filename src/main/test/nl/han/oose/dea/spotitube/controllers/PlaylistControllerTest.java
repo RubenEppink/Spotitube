@@ -36,7 +36,7 @@ class PlaylistControllerTest {
         when(playlistControllerUnderTest.playlistDAO.getAll()).thenReturn(playlistsDTO);
 
         // Run the test
-        final Response result = playlistControllerUnderTest.getAllPlaylists("123456");
+        final Response result = playlistControllerUnderTest.deletePlaylist("123456");
 
         // Verify the results
         Assertions.assertEquals(playlistsDTO, result.getEntity());
@@ -55,7 +55,7 @@ class PlaylistControllerTest {
         when(playlistControllerUnderTest.playlistDAO.getAll()).thenReturn(playlistsDTO);
 
         // Run the test
-        final Response result = playlistControllerUnderTest.getAllPlaylists("123456");
+        final Response result = playlistControllerUnderTest.deletePlaylist("123456");
 
         // Verify the results
         Assertions.assertEquals(200, result.getStatus());
@@ -75,7 +75,7 @@ class PlaylistControllerTest {
         when(playlistControllerUnderTest.playlistDAO.getAll()).thenReturn(playlistsDTO);
 
         // Run the test
-        final Response result = playlistControllerUnderTest.getAllPlaylists("123456");
+        final Response result = playlistControllerUnderTest.deletePlaylist("123456");
 
         // Verify the results
         verify(playlistControllerUnderTest.playlistDAO).getAll();

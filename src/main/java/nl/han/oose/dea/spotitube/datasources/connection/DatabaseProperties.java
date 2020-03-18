@@ -10,7 +10,8 @@ public class DatabaseProperties {
     public DatabaseProperties() {
         try {
             properties.load(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("database.properties")));
-        } catch (IOException e) {
+            Class.forName(getDriver());
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

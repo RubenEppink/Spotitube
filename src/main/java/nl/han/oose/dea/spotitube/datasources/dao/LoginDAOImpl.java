@@ -13,6 +13,7 @@ import java.sql.SQLException;
 public class LoginDAOImpl implements LoginDAO {
     DBConnection dbConnection;
 
+
     @Inject
     public void setDbConnection(DBConnection dbConnection) {
         this.dbConnection = dbConnection;
@@ -39,7 +40,9 @@ public class LoginDAOImpl implements LoginDAO {
             e.printStackTrace();
         } finally {
             dbConnection.closeConnection();
+
         }
+
         return null;
     }
 }

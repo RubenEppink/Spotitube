@@ -19,18 +19,12 @@ public class SQLDBConnection implements DBConnection {
     //wel of niet exception gelijk afvangen?
     @Override
     public Connection getConnection() throws SQLException {
-        //moet dit maar 1 keer aangeroepen worden? (Driver)
-        try {
-            Class.forName(databaseProperties.getDriver());
-        } catch (ClassNotFoundException e) {
-
-        }
-
         return DriverManager.getConnection(databaseProperties.getConnectionString());
     }
 
     @Override
     public void closeConnection() {
+        //TODO
 
     }
 }

@@ -11,9 +11,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class PlaylistDAOImpl implements PlaylistDAO {
+    Connection connection;
     DBConnection dbConnection;
 
     @Inject
@@ -26,7 +28,7 @@ public class PlaylistDAOImpl implements PlaylistDAO {
         List<PlaylistDTO> playlists = new ArrayList<>();
 
         try {
-            Connection connection = dbConnection.getConnection();
+             connection = dbConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM playlist");
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -44,6 +46,25 @@ public class PlaylistDAOImpl implements PlaylistDAO {
             dbConnection.closeConnection();
         }
         return new PlaylistsDTO(playlists, 7549);
+    }
+
+    @Override
+    public PlaylistsDTO delete(int id) {
+        System.out.println("hoi");
+        try {
+            System.out.println("begin delete");
+             connection = dbConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM playlist WHERE playlist_id = ?");
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+            System.out.println("deleted");
+        } catch (SQLException e) {
+            System.out.println("delete ging fout");
+            e.printStackTrace();
+        } finally {
+            dbConnection.closeConnection();
+        }
+        return getAll();
     }
 }
 
