@@ -16,12 +16,15 @@ class PlaylistDomainTest {
 
     private PlaylistDomain playlistDomainUnderTest;
     private PlaylistDAO mockedPlaylistDAO;
+    private String token;
 
     @BeforeEach
     void setUp() {
         playlistDomainUnderTest = new PlaylistDomain();
         mockedPlaylistDAO = mock(PlaylistDAO.class);
         playlistDomainUnderTest.setPlaylistDAO(mockedPlaylistDAO);
+        token = "123456";
+
     }
 
     @Test
@@ -32,10 +35,10 @@ class PlaylistDomainTest {
         final PlaylistsDTO playlistsDTO = new PlaylistsDTO(Arrays.asList(
                 new PlaylistDTO(0, "name", false, Arrays.asList(
                         new TrackDTO(0, "title", "performer", 0, "album", 0, "publicationDate", "description", false)))), 0);
-        when(playlistDomainUnderTest.playlistDAO.getAll()).thenReturn(playlistsDTO);
+        when(playlistDomainUnderTest.playlistDAO.getAll(token)).thenReturn(playlistsDTO);
 
         // Run the test
-        final PlaylistsDTO result = playlistDomainUnderTest.getAll();
+        final PlaylistsDTO result = playlistDomainUnderTest.getAll(token);
 
         // Verify the results
         Assertions.assertEquals(playlistsDTO, result);
@@ -49,13 +52,13 @@ class PlaylistDomainTest {
         final PlaylistsDTO playlistsDTO = new PlaylistsDTO(Arrays.asList(
                 new PlaylistDTO(0, "name", false, Arrays.asList(
                         new TrackDTO(0, "title", "performer", 0, "album", 0, "publicationDate", "description", false)))), 0);
-        when(playlistDomainUnderTest.playlistDAO.getAll()).thenReturn(playlistsDTO);
+        when(playlistDomainUnderTest.playlistDAO.getAll(token)).thenReturn(playlistsDTO);
 
         // Run the test
-        final PlaylistsDTO result = playlistDomainUnderTest.getAll();
+        final PlaylistsDTO result = playlistDomainUnderTest.getAll(token);
 
         // Verify the results
-        verify(mockedPlaylistDAO).getAll();
+        verify(mockedPlaylistDAO).getAll(token);
     }
 
 
@@ -68,13 +71,13 @@ class PlaylistDomainTest {
         final PlaylistsDTO playlistsDTO = new PlaylistsDTO(Arrays.asList(
                 new PlaylistDTO(0, "name", false, Arrays.asList(
                         new TrackDTO(0, "title", "performer", 0, "album", 0, "publicationDate", "description", false)))), 0);
-        when(playlistDomainUnderTest.playlistDAO.getAll()).thenReturn(playlistsDTO);
+        when(playlistDomainUnderTest.playlistDAO.getAll(token)).thenReturn(playlistsDTO);
 
         // Run the test
-        final PlaylistsDTO result = playlistDomainUnderTest.delete(0);
+        final PlaylistsDTO result = playlistDomainUnderTest.delete(0, token);
 
         // Verify the results
-        verify(mockedPlaylistDAO).delete(0);
+        verify(mockedPlaylistDAO).delete(0, token);
     }
 
     @Test
@@ -85,10 +88,10 @@ class PlaylistDomainTest {
         final PlaylistsDTO playlistsDTO = new PlaylistsDTO(Arrays.asList(
                 new PlaylistDTO(0, "name", false, Arrays.asList(
                         new TrackDTO(0, "title", "performer", 0, "album", 0, "publicationDate", "description", false)))), 0);
-        when(playlistDomainUnderTest.playlistDAO.getAll()).thenReturn(playlistsDTO);
+        when(playlistDomainUnderTest.playlistDAO.getAll(token)).thenReturn(playlistsDTO);
 
         // Run the test
-        final PlaylistsDTO result = playlistDomainUnderTest.delete(0);
+        final PlaylistsDTO result = playlistDomainUnderTest.delete(0, token);
 
         // Verify the results
         Assertions.assertEquals(playlistsDTO, result);

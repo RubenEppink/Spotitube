@@ -23,13 +23,13 @@ public class PlaylistDAOImpl implements PlaylistDAO {
     }
 
     @Override
-    public PlaylistsDTO getAll() {
+    public PlaylistsDTO getAll(String token) {
         List<PlaylistDTO> playlists = new ArrayList<>();
 
         try {
             connection = dbConnection.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM playlist");
-
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM playlist WHERE token = ?");
+            preparedStatement.setString(1, token);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -49,11 +49,12 @@ public class PlaylistDAOImpl implements PlaylistDAO {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(int id, String token) {
         try {
             connection = dbConnection.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM playlist WHERE playlist_id = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM playlist WHERE playlist_id = ? AND token = ?");
             preparedStatement.setInt(1, id);
+            preparedStatement.setString(2, token);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

@@ -50,6 +50,5 @@ class LoginControllerTest {
         // Verify the results
         Assertions.assertThrows(InvalidCredentialsException.class,
                 () -> loginControllerUnderTest.login(loginDTO));
-
     }
 }

@@ -17,12 +17,14 @@ class PlaylistControllerTest {
 
     private PlaylistController playlistControllerUnderTest;
     private PlaylistDomain mockedPlaylistDomain;
+    private String token;
 
     @BeforeEach
     void setUp() {
         playlistControllerUnderTest = new PlaylistController();
         mockedPlaylistDomain = mock(PlaylistDomain.class);
         playlistControllerUnderTest.setPlaylistDomain(mockedPlaylistDomain);
+        token = "123456";
     }
 
     @Test
@@ -35,7 +37,7 @@ class PlaylistControllerTest {
                         new PlaylistDTO(4, "name", false, Arrays.asList(
                                 new TrackDTO(0, "title", "performer", 0, "album", 0,
                                         "publicationDate", "description", false)))), 0);
-        when(playlistControllerUnderTest.playlistDomain.getAll()).thenReturn(playlistsDTO);
+        when(playlistControllerUnderTest.playlistDomain.getAll(token)).thenReturn(playlistsDTO);
 
         // Run the test
         final Response result = playlistControllerUnderTest.getAllPlaylists("123456");
@@ -54,7 +56,7 @@ class PlaylistControllerTest {
                         new PlaylistDTO(4, "name", false, Arrays.asList(
                                 new TrackDTO(0, "title", "performer", 0, "album", 0,
                                         "publicationDate", "description", false)))), 0);
-        when(playlistControllerUnderTest.playlistDomain.getAll()).thenReturn(playlistsDTO);
+        when(playlistControllerUnderTest.playlistDomain.getAll(token)).thenReturn(playlistsDTO);
 
         // Run the test
         final Response result = playlistControllerUnderTest.getAllPlaylists("123456");
@@ -74,13 +76,13 @@ class PlaylistControllerTest {
                         new PlaylistDTO(4, "name", false, Arrays.asList(
                                 new TrackDTO(0, "title", "performer", 0, "album", 0,
                                         "publicationDate", "description", false)))), 0);
-        when(playlistControllerUnderTest.playlistDomain.getAll()).thenReturn(playlistsDTO);
+        when(playlistControllerUnderTest.playlistDomain.getAll(token)).thenReturn(playlistsDTO);
 
         // Run the test
         final Response result = playlistControllerUnderTest.getAllPlaylists("123456");
 
         // Verify the results
-        verify(playlistControllerUnderTest.playlistDomain).getAll();
+        verify(playlistControllerUnderTest.playlistDomain).getAll(token);
     }
 
     @Test
@@ -93,13 +95,13 @@ class PlaylistControllerTest {
                         new PlaylistDTO(4, "name", false, Arrays.asList(
                                 new TrackDTO(0, "title", "performer", 0, "album", 0,
                                         "publicationDate", "description", false)))), 0);
-        when(playlistControllerUnderTest.playlistDomain.getAll()).thenReturn(playlistsDTO);
+        when(playlistControllerUnderTest.playlistDomain.getAll(token)).thenReturn(playlistsDTO);
 
         // Run the test
         final Response result = playlistControllerUnderTest.deletePlaylist("123456", 0);
 
         // Verify the results
-        verify(playlistControllerUnderTest.playlistDomain).delete(0);
+        verify(playlistControllerUnderTest.playlistDomain).delete(0, token);
     }
 
     @Test
@@ -112,7 +114,7 @@ class PlaylistControllerTest {
                         new PlaylistDTO(4, "name", false, Arrays.asList(
                                 new TrackDTO(0, "title", "performer", 0, "album", 0,
                                         "publicationDate", "description", false)))), 0);
-        when(playlistControllerUnderTest.playlistDomain.delete(0)).thenReturn(playlistsDTO);
+        when(playlistControllerUnderTest.playlistDomain.delete(0, token)).thenReturn(playlistsDTO);
 
         // Run the test
         final Response result = playlistControllerUnderTest.deletePlaylist("123456", 0);
@@ -131,7 +133,7 @@ class PlaylistControllerTest {
                         new PlaylistDTO(4, "name", false, Arrays.asList(
                                 new TrackDTO(0, "title", "performer", 0, "album", 0,
                                         "publicationDate", "description", false)))), 0);
-        when(playlistControllerUnderTest.playlistDomain.delete(0)).thenReturn(playlistsDTO);
+        when(playlistControllerUnderTest.playlistDomain.delete(0, token)).thenReturn(playlistsDTO);
 
         // Run the test
         final Response result = playlistControllerUnderTest.deletePlaylist("123456", 0);

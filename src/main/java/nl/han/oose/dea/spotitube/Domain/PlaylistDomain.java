@@ -14,13 +14,13 @@ public class PlaylistDomain {
         this.playlistDAO = playlistDAO;
     }
 
-    public PlaylistsDTO getAll() {
-        return playlistDAO.getAll();
+    public PlaylistsDTO getAll(String token) {
+        return playlistDAO.getAll(token);
     }
 
-    public PlaylistsDTO delete(int id) {
-        playlistDAO.delete(id);
-        return playlistDAO.getAll();
+    public PlaylistsDTO delete(int id, String token) {
+        playlistDAO.delete(id, token);
+        return playlistDAO.getAll(token);
     }
 }
 

@@ -20,13 +20,13 @@ public class PlaylistController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllPlaylists(@QueryParam("token") String token) {
-        return Response.status(200).entity(playlistDomain.getAll()).build();
+        return Response.status(200).entity(playlistDomain.getAll(token)).build();
     }
 
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     public Response deletePlaylist(@QueryParam("token") String token, @PathParam("id") int id) {
-        return Response.status(200).entity(playlistDomain.delete(id)).build();
+        return Response.status(200).entity(playlistDomain.delete(id, token)).build();
     }
 }
