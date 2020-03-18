@@ -28,8 +28,8 @@ public class UserDAOImpl implements UserDAO {
 
             while (resultSet.next()) {
                 return new UserDTO(
-                        resultSet.getString("username"),
-                        resultSet.getString("token")
+                        resultSet.getString("token"),
+                        resultSet.getString("username")
                 );
             }
         } catch (SQLException e) {

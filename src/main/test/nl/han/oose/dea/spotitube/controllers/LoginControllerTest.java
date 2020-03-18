@@ -14,8 +14,7 @@ import javax.ws.rs.core.Response;
 import static org.mockito.Mockito.*;
 
 class LoginControllerTest {
-
-    private LoginController loginControllerUnderTest;
+/*    private LoginController loginControllerUnderTest;
     private LoginDAO mockedLoginDAO;
     private UserDAO mockedUserDAO;
 
@@ -105,5 +104,5 @@ class LoginControllerTest {
         // Run the test
         // Verify the results
         Assertions.assertThrows(InvalidCredentialsException.class, () ->loginControllerUnderTest.login(loginDTO));
-    }
+    }*/
 }

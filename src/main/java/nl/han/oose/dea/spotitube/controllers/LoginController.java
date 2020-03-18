@@ -1,5 +1,6 @@
 package nl.han.oose.dea.spotitube.controllers;
 
+import nl.han.oose.dea.spotitube.Domain.LoginDomain;
 import nl.han.oose.dea.spotitube.controllers.dto.LoginDTO;
 import nl.han.oose.dea.spotitube.controllers.exceptions.InvalidCredentialsException;
 import nl.han.oose.dea.spotitube.datasources.dao.interfaces.LoginDAO;
@@ -15,27 +16,17 @@ import javax.ws.rs.core.Response;
 
 @Path("/login")
 public class LoginController {
-    LoginDAO loginDAO;
-    UserDAO userDAO;
+   LoginDomain loginDomain;
 
-    @Inject
-    public void setUserDAO(UserDAO userDAO) {
-        this.userDAO = userDAO;
-    }
-
-    @Inject
-    public void setLoginDAO(LoginDAO loginDAO) {
-        this.loginDAO = loginDAO;
+   @Inject
+    public void setLoginDomain(LoginDomain loginDomain) {
+        this.loginDomain = loginDomain;
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response login(LoginDTO loginDTO) {
-        if (loginDTO.getPassword().equals(loginDAO.read(loginDTO.getUser()).getPassword())) {
-            return Response.status(201).entity(userDAO.read(loginDTO.getUser())).build();
-        } else {
-            throw new InvalidCredentialsException();
-        }
+        return Response.status(201).entity(loginDomain.validateCredentials(loginDTO)).build();
     }
 }
