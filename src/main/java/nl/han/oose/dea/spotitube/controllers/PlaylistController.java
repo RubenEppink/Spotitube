@@ -19,7 +19,7 @@ public class PlaylistController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deletePlaylist(@QueryParam("token") String token) {
+    public Response getAllPlaylists(@QueryParam("token") String token) {
         return Response.status(200).entity(playlistDomain.getAll()).build();
     }
 
