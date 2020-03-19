@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDAOImpl implements UserDAO {
-    DBConnection dbConnection;
+    private DBConnection dbConnection;
 
     @Inject
     public void setDbConnection(DBConnection dbConnection) {

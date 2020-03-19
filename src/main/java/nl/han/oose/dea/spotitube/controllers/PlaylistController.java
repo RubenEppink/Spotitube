@@ -12,8 +12,8 @@ import javax.ws.rs.core.Response;
 
 @Path("/playlists")
 public class PlaylistController {
-    PlaylistDomain playlistDomain;
-    TrackDomain trackDomain;
+    private PlaylistDomain playlistDomain;
+    private TrackDomain trackDomain;
 
     @Inject
     public void setTrackDomain(TrackDomain trackDomain) {

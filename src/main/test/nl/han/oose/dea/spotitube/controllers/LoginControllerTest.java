@@ -30,7 +30,7 @@ class LoginControllerTest {
         // Setup
         final LoginDTO loginDTO = new LoginDTO("ruben", "wachtwoord");
         final UserDTO userDTO = new UserDTO("123456", "3l1t3h4ckz0rz");
-        when(loginControllerUnderTest.loginDomain.validateCredentials(loginDTO)).thenReturn(userDTO);
+        when(mockedLoginDomain.validateCredentials(loginDTO)).thenReturn(userDTO);
 
         // Run the test
         final Response result = loginControllerUnderTest.login(loginDTO);

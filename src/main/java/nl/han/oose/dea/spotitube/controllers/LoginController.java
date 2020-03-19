@@ -13,7 +13,7 @@ import javax.ws.rs.core.Response;
 
 @Path("/login")
 public class LoginController {
-   LoginDomain loginDomain;
+   private LoginDomain loginDomain;
 
    @Inject
     public void setLoginDomain(LoginDomain loginDomain) {

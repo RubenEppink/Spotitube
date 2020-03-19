@@ -28,11 +28,11 @@ class LoginDomainTest {
     @Test
     void testValidateCredentialsCallsLoginRead() {
         // Setup
-        final LoginDTO loginDTO = new LoginDTO("ruben", "wachtwoord");
+        final LoginDTO loginDTO = new LoginDTO("ruben", "dc00c903852bb19eb250aeba05e534a6d211629d77d055033806b783bae09937");
         final UserDTO userDTO = new UserDTO("123456", "lmfao");
 
-        when(loginDomainUnderTest.loginDAO.read("ruben")).thenReturn(loginDTO);
-        when(loginDomainUnderTest.userDAO.read("ruben")).thenReturn(userDTO);
+        when(mockedLoginDAO.read("ruben")).thenReturn(loginDTO);
+        when(mockedUserDAO.read("ruben")).thenReturn(userDTO);
 
         // Run the test
         final UserDTO result = loginDomainUnderTest.validateCredentials(loginDTO);
@@ -44,11 +44,11 @@ class LoginDomainTest {
     @Test
     void testLogincallsUserRead() {
         // Setup
-        final LoginDTO loginDTO = new LoginDTO("ruben", "wachtwoord");
+        final LoginDTO loginDTO = new LoginDTO("ruben", "dc00c903852bb19eb250aeba05e534a6d211629d77d055033806b783bae09937");
         final UserDTO userDTO = new UserDTO("123456", "lmfao");
 
-        when(loginDomainUnderTest.loginDAO.read("ruben")).thenReturn(loginDTO);
-        when(loginDomainUnderTest.userDAO.read("ruben")).thenReturn(userDTO);
+        when(mockedLoginDAO.read("ruben")).thenReturn(loginDTO);
+        when(mockedUserDAO.read("ruben")).thenReturn(userDTO);
 
         // Run the test
         final UserDTO result = loginDomainUnderTest.validateCredentials(loginDTO);
@@ -60,11 +60,11 @@ class LoginDomainTest {
     @Test
     void testValidateCredentialsThrowsException() {
         // Setup
-        final LoginDTO loginDTO = new LoginDTO("ruben", "wachtwoord");
+        final LoginDTO loginDTO = new LoginDTO("ruben", "dc00c903852bb19eb250aeba05e534a6d211629d77d055033806b783bae09937");
         final UserDTO userDTO = new UserDTO("123456", "lmfao");
 
-        when(loginDomainUnderTest.loginDAO.read("ruben")).thenReturn(new LoginDTO("nebur", "droowthcaw"));
-        when(loginDomainUnderTest.userDAO.read("ruben")).thenReturn(userDTO);
+        when(mockedLoginDAO.read("ruben")).thenReturn(new LoginDTO("nebur", "droowthcaw"));
+        when(mockedUserDAO.read("ruben")).thenReturn(userDTO);
 
         // Run the test
         // Verify the results
@@ -74,11 +74,11 @@ class LoginDomainTest {
     @Test
     void testValidateCredentialsReturnsUserDTO() {
         // Setup
-        final LoginDTO loginDTO = new LoginDTO("ruben", "wachtwoord");
+        final LoginDTO loginDTO = new LoginDTO("ruben", "dc00c903852bb19eb250aeba05e534a6d211629d77d055033806b783bae09937");
         final UserDTO userDTO = new UserDTO("123456", "lmfao");
 
-        when(loginDomainUnderTest.loginDAO.read("ruben")).thenReturn(loginDTO);
-        when(loginDomainUnderTest.userDAO.read("ruben")).thenReturn(userDTO);
+        when(mockedLoginDAO.read("ruben")).thenReturn(loginDTO);
+        when(mockedUserDAO.read("ruben")).thenReturn(userDTO);
 
         // Run the test
         final UserDTO result = loginDomainUnderTest.validateCredentials(loginDTO);
@@ -90,11 +90,11 @@ class LoginDomainTest {
     @Test
     void testValidateCredentialsLoginReadReturnsLoginDTO() {
         // Setup
-        final LoginDTO loginDTO = new LoginDTO("ruben", "wachtwoord");
+        final LoginDTO loginDTO = new LoginDTO("ruben", "dc00c903852bb19eb250aeba05e534a6d211629d77d055033806b783bae09937");
         final UserDTO userDTO = new UserDTO("123456", "lmfao");
 
-        when(loginDomainUnderTest.loginDAO.read("ruben")).thenReturn(loginDTO);
-        when(loginDomainUnderTest.userDAO.read("ruben")).thenReturn(userDTO);
+        when(mockedLoginDAO.read("ruben")).thenReturn(loginDTO);
+        when(mockedUserDAO.read("ruben")).thenReturn(userDTO);
 
         // Run the test
         final LoginDTO result = mockedLoginDAO.read("ruben");

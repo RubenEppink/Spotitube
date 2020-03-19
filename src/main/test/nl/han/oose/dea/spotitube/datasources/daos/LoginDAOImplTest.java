@@ -14,11 +14,13 @@ import static org.mockito.Mockito.*;
 class LoginDAOImplTest {
 
     private LoginDAOImpl loginDAOImplUnderTest;
+    private DBConnection mockedDBConnection;
 
     @BeforeEach
     void setUp() {
         loginDAOImplUnderTest = new LoginDAOImpl();
-        loginDAOImplUnderTest.dbConnection = mock(DBConnection.class);
+        mockedDBConnection =  mock(DBConnection.class);
+        loginDAOImplUnderTest.setDbConnection(mockedDBConnection);
     }
 
     @Test
@@ -27,20 +29,20 @@ class LoginDAOImplTest {
 
         // Configure DBConnection.getConnection(...).
         final Connection mockConnection = mock(Connection.class);
-        when(loginDAOImplUnderTest.dbConnection.getConnection()).thenReturn(mockConnection);
+        when(mockedDBConnection.getConnection()).thenReturn(mockConnection);
 
         // Run the test
         final LoginDTO result = loginDAOImplUnderTest.read("userLogin");
 
         // Verify the results
         verify(mockConnection).close();
-        verify(loginDAOImplUnderTest.dbConnection).closeConnection();
+        verify(mockedDBConnection).closeConnection();
     }
 
     @Test
     void testRead_DBConnectionThrowsSQLException() throws Exception {
         // Setup
-        when(loginDAOImplUnderTest.dbConnection.getConnection()).thenThrow(SQLException.class);
+        when(mockedDBConnection.getConnection()).thenThrow(SQLException.class);
 
         // Run the test
         // Verify the results

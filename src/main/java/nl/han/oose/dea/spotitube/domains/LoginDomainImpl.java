@@ -6,6 +6,7 @@ import nl.han.oose.dea.spotitube.controllers.exceptions.InvalidCredentialsExcept
 import nl.han.oose.dea.spotitube.datasources.daos.interfaces.LoginDAO;
 import nl.han.oose.dea.spotitube.datasources.daos.interfaces.UserDAO;
 import nl.han.oose.dea.spotitube.domains.interfaces.LoginDomain;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.inject.Inject;
 
@@ -25,7 +26,7 @@ public class LoginDomainImpl implements LoginDomain {
 
     @Override
     public UserDTO validateCredentials(LoginDTO loginDTO) {
-        if (loginDTO.getPassword().equals(loginDAO.read(loginDTO.getUser()).getPassword())) {
+        if (DigestUtils.sha256Hex(loginDTO.getPassword()).equals(loginDAO.read(loginDTO.getUser()).getPassword())) {
             return userDAO.read(loginDTO.getUser());
         } else {
             throw new InvalidCredentialsException();

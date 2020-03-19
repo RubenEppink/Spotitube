@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="spotitube" target="1.8" />
+      <module name="spotitube" target="13" />
     </bytecodeTargetLevel>
   </component>
 </project>

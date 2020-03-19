@@ -1,6 +1,7 @@
 package nl.han.oose.dea.spotitube.datasources.daos;
 
 import nl.han.oose.dea.spotitube.controllers.dtos.LoginDTO;
+import nl.han.oose.dea.spotitube.datasources.assemblers.Assembler;
 import nl.han.oose.dea.spotitube.datasources.connections.DBConnection;
 import nl.han.oose.dea.spotitube.datasources.daos.interfaces.LoginDAO;
 
@@ -11,8 +12,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class LoginDAOImpl implements LoginDAO {
-    DBConnection dbConnection;
+    private DBConnection dbConnection;
+    private Assembler<LoginDTO> assembler;
 
+    @Inject
+    public void setAssembler(Assembler<LoginDTO> assembler) {
+        this.assembler = assembler;
+    }
 
     @Inject
     public void setDbConnection(DBConnection dbConnection) {
@@ -30,12 +36,7 @@ public class LoginDAOImpl implements LoginDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             //kan dit ook anders?
-            while (resultSet.next()) {
-                return new LoginDTO(
-                        resultSet.getString("user_login"),
-                        resultSet.getString("password")
-                );
-            }
+            return assembler.toDTO(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

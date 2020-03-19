@@ -38,7 +38,7 @@ class PlaylistControllerTest {
                         new PlaylistDTO(4, "name", false, Arrays.asList(
                                 new TrackDTO(0, "title", "performer", 0, "album", 0,
                                         "publicationDate", "description", false)))), 0);
-        when(playlistControllerUnderTest.playlistDomain.getAll(token)).thenReturn(playlistsDTO);
+        when(mockedPlaylistDomain.getAll(token)).thenReturn(playlistsDTO);
 
         // Run the test
         final Response result = playlistControllerUnderTest.getAllPlaylists("123456");
@@ -57,7 +57,7 @@ class PlaylistControllerTest {
                         new PlaylistDTO(4, "name", false, Arrays.asList(
                                 new TrackDTO(0, "title", "performer", 0, "album", 0,
                                         "publicationDate", "description", false)))), 0);
-        when(playlistControllerUnderTest.playlistDomain.getAll(token)).thenReturn(playlistsDTO);
+        when(mockedPlaylistDomain.getAll(token)).thenReturn(playlistsDTO);
 
         // Run the test
         final Response result = playlistControllerUnderTest.getAllPlaylists("123456");
@@ -77,13 +77,13 @@ class PlaylistControllerTest {
                         new PlaylistDTO(4, "name", false, Arrays.asList(
                                 new TrackDTO(0, "title", "performer", 0, "album", 0,
                                         "publicationDate", "description", false)))), 0);
-        when(playlistControllerUnderTest.playlistDomain.getAll(token)).thenReturn(playlistsDTO);
+        when(mockedPlaylistDomain.getAll(token)).thenReturn(playlistsDTO);
 
         // Run the test
         final Response result = playlistControllerUnderTest.getAllPlaylists("123456");
 
         // Verify the results
-        verify(playlistControllerUnderTest.playlistDomain).getAll(token);
+        verify(mockedPlaylistDomain).getAll(token);
     }
 
     @Test
@@ -96,13 +96,13 @@ class PlaylistControllerTest {
                         new PlaylistDTO(4, "name", false, Arrays.asList(
                                 new TrackDTO(0, "title", "performer", 0, "album", 0,
                                         "publicationDate", "description", false)))), 0);
-        when(playlistControllerUnderTest.playlistDomain.getAll(token)).thenReturn(playlistsDTO);
+        when(mockedPlaylistDomain.getAll(token)).thenReturn(playlistsDTO);
 
         // Run the test
         final Response result = playlistControllerUnderTest.deletePlaylist("123456", 0);
 
         // Verify the results
-        verify(playlistControllerUnderTest.playlistDomain).delete(0, token);
+        verify(mockedPlaylistDomain).delete(0, token);
     }
 
     @Test
@@ -115,7 +115,7 @@ class PlaylistControllerTest {
                         new PlaylistDTO(4, "name", false, Arrays.asList(
                                 new TrackDTO(0, "title", "performer", 0, "album", 0,
                                         "publicationDate", "description", false)))), 0);
-        when(playlistControllerUnderTest.playlistDomain.delete(0, token)).thenReturn(playlistsDTO);
+        when(mockedPlaylistDomain.delete(0, token)).thenReturn(playlistsDTO);
 
         // Run the test
         final Response result = playlistControllerUnderTest.deletePlaylist("123456", 0);
@@ -134,7 +134,7 @@ class PlaylistControllerTest {
                         new PlaylistDTO(4, "name", false, Arrays.asList(
                                 new TrackDTO(0, "title", "performer", 0, "album", 0,
                                         "publicationDate", "description", false)))), 0);
-        when(playlistControllerUnderTest.playlistDomain.delete(0, token)).thenReturn(playlistsDTO);
+        when(mockedPlaylistDomain.delete(0, token)).thenReturn(playlistsDTO);
 
         // Run the test
         final Response result = playlistControllerUnderTest.deletePlaylist("123456", 0);

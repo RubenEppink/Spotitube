@@ -12,7 +12,7 @@ import javax.ws.rs.core.Response;
 
 @Path("/tracks")
 public class TrackController {
-    TrackDomain trackDomain;
+    private TrackDomain trackDomain;
 
     @Inject
     public void setTrackDomain(TrackDomain trackDomain) {

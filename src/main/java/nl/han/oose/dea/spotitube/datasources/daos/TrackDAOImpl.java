@@ -2,6 +2,7 @@ package nl.han.oose.dea.spotitube.datasources.daos;
 
 import nl.han.oose.dea.spotitube.controllers.dtos.TrackDTO;
 import nl.han.oose.dea.spotitube.controllers.dtos.TracksDTO;
+import nl.han.oose.dea.spotitube.datasources.assemblers.Assembler;
 import nl.han.oose.dea.spotitube.datasources.connections.DBConnection;
 import nl.han.oose.dea.spotitube.datasources.daos.interfaces.TrackDAO;
 
@@ -12,8 +13,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class TrackDAOImpl implements TrackDAO {
-    Connection connection;
-    DBConnection dbConnection;
+    private Connection connection;
+    private DBConnection dbConnection;
+    private Assembler<TrackDTO> trackAssembler;
+    private Assembler<TracksDTO> tracksAssembler;
+
+    @Inject
+    public void setTracksAssembler(Assembler<TracksDTO> tracksAssembler) {
+        this.tracksAssembler = tracksAssembler;
+    }
+
+    @Inject
+    public void setTrackAssembler(Assembler<TrackDTO> trackAssembler) {
+        this.trackAssembler = trackAssembler;
+    }
 
     @Inject
     public void setDbConnection(DBConnection dbConnection) {
@@ -29,19 +42,8 @@ public class TrackDAOImpl implements TrackDAO {
             preparedStatement.setInt(1, trackId);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()) {
-                return new TrackDTO(
-                        resultSet.getInt("track_id"),
-                        resultSet.getString("title"),
-                        resultSet.getString("performer"),
-                        resultSet.getInt("duration"),
-                        resultSet.getString("album"),
-                        resultSet.getInt("play_count"),
-                        resultSet.getString("publication_date"),
-                        resultSet.getString("description"),
-                        resultSet.getBoolean("offline_available")
-                );
-            }
+            return trackAssembler.toDTO(resultSet);
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -92,7 +94,6 @@ public class TrackDAOImpl implements TrackDAO {
 
     @Override
     public TracksDTO getAllInPlaylist(String token, int playlistId) {
-        TracksDTO tracksDTO = new TracksDTO();
 
         try {
             connection = dbConnection.getConnection();
@@ -108,26 +109,15 @@ public class TrackDAOImpl implements TrackDAO {
             preparedStatement.setString(2, token);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()) {
-                tracksDTO.getTracks().add(new TrackDTO(
-                        resultSet.getInt("track_id"),
-                        resultSet.getString("title"),
-                        resultSet.getString("performer"),
-                        resultSet.getInt("duration"),
-                        resultSet.getString("album"),
-                        resultSet.getInt("play_count"),
-                        resultSet.getString("publication_date"),
-                        resultSet.getString("description"),
-                        resultSet.getBoolean("offline_available")
-                ));
-            }
+           tracksAssembler.toDTO(resultSet);
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             dbConnection.closeConnection();
         }
 
-        return tracksDTO;
+        return null;
     }
 
     @Override
