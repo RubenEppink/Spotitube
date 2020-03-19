@@ -14,13 +14,13 @@ import static org.mockito.Mockito.*;
 
 class PlaylistDomainTest {
 
-    private PlaylistDomain playlistDomainUnderTest;
+    private PlaylistDomainImpl playlistDomainUnderTest;
     private PlaylistDAO mockedPlaylistDAO;
     private String token;
 
     @BeforeEach
     void setUp() {
-        playlistDomainUnderTest = new PlaylistDomain();
+        playlistDomainUnderTest = new PlaylistDomainImpl();
         mockedPlaylistDAO = mock(PlaylistDAO.class);
         playlistDomainUnderTest.setPlaylistDAO(mockedPlaylistDAO);
         token = "123456";

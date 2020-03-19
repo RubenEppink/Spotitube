@@ -29,3 +29,8 @@
    - owner is altijd true bij create?
 
 8. Stel je hebt twee accounts, beide hebben dezelfde playlist. één van hun is owner van de playlist en kan hem dus aanpassen. Wil je dat deze aanpassingen voor de ander ook zichtbaar is? delen ze deze instantie van een playlist dus, of moet ieder zijn eigen instantie van een playlist hebben?
+
+9. ` Note that the relevant parts are the `id` and `offlineAvailable`. The `id` should be used by the server to lookup the Track, before adding it to the Playlist. The offline availability should correctly be set.` -> wat moet je nou precies doen?
+
+   - check of er een track met deze id in de db staat
+   - als de offline availability niet overeenkomt, moet je deze eerst updaten en dan toevoegen aan playlist?

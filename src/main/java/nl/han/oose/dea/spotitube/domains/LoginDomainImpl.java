@@ -5,12 +5,13 @@ import nl.han.oose.dea.spotitube.controllers.dtos.UserDTO;
 import nl.han.oose.dea.spotitube.controllers.exceptions.InvalidCredentialsException;
 import nl.han.oose.dea.spotitube.datasources.daos.interfaces.LoginDAO;
 import nl.han.oose.dea.spotitube.datasources.daos.interfaces.UserDAO;
+import nl.han.oose.dea.spotitube.domains.interfaces.LoginDomain;
 
 import javax.inject.Inject;
 
-public class LoginDomain {
-    LoginDAO loginDAO;
-    UserDAO userDAO;
+public class LoginDomainImpl implements LoginDomain {
+    private LoginDAO loginDAO;
+    private UserDAO userDAO;
 
     @Inject
     public void setUserDAO(UserDAO userDAO) {
@@ -22,6 +23,7 @@ public class LoginDomain {
         this.loginDAO = loginDAO;
     }
 
+    @Override
     public UserDTO validateCredentials(LoginDTO loginDTO) {
         if (loginDTO.getPassword().equals(loginDAO.read(loginDTO.getUser()).getPassword())) {
             return userDAO.read(loginDTO.getUser());

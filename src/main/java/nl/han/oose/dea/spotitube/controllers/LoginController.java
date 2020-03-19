@@ -1,6 +1,6 @@
 package nl.han.oose.dea.spotitube.controllers;
 
-import nl.han.oose.dea.spotitube.domains.LoginDomain;
+import nl.han.oose.dea.spotitube.domains.interfaces.LoginDomain;
 import nl.han.oose.dea.spotitube.controllers.dtos.LoginDTO;
 
 import javax.inject.Inject;

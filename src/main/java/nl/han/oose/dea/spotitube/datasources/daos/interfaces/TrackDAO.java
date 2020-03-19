@@ -4,10 +4,10 @@ import nl.han.oose.dea.spotitube.controllers.dtos.TrackDTO;
 import nl.han.oose.dea.spotitube.controllers.dtos.TracksDTO;
 
 public interface TrackDAO {
-    public TrackDTO get(int trackId);
-    public TracksDTO getAllNotInPlaylist(String token, int playlistId);
-    public TracksDTO getAllInPlaylist(String token, int playlistId);
-    public void delete(String token, int playlistId, int trackId);
-    public void addToPlaylist(String token, int playlistId, TrackDTO trackDTO);
-    public void update(String token, int playlistId, TrackDTO trackDTO);
+     TrackDTO get(int trackId);
+     TracksDTO getAllNotInPlaylist(String token, int playlistId);
+     TracksDTO getAllInPlaylist(String token, int playlistId);
+     void delete(String token, int playlistId, int trackId);
+     void addToPlaylist(String token, int playlistId, TrackDTO trackDTO);
+     void update(String token, int playlistId, TrackDTO trackDTO);
 }

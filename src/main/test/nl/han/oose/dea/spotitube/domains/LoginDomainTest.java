@@ -12,13 +12,13 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 
 class LoginDomainTest {
-    private LoginDomain loginDomainUnderTest;
+    private LoginDomainImpl loginDomainUnderTest;
     private LoginDAO mockedLoginDAO;
     private UserDAO mockedUserDAO;
 
     @BeforeEach
     void setUp() {
-        loginDomainUnderTest = new LoginDomain();
+        loginDomainUnderTest = new LoginDomainImpl();
         mockedLoginDAO = mock(LoginDAO.class);
         mockedUserDAO = mock(UserDAO.class);
         loginDomainUnderTest.setLoginDAO(mockedLoginDAO);

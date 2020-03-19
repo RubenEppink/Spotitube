@@ -2,8 +2,8 @@ package nl.han.oose.dea.spotitube.controllers;
 
 import nl.han.oose.dea.spotitube.controllers.dtos.PlaylistDTO;
 import nl.han.oose.dea.spotitube.controllers.dtos.TrackDTO;
-import nl.han.oose.dea.spotitube.domains.PlaylistDomain;
-import nl.han.oose.dea.spotitube.domains.TrackDomain;
+import nl.han.oose.dea.spotitube.domains.interfaces.PlaylistDomain;
+import nl.han.oose.dea.spotitube.domains.interfaces.TrackDomain;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -33,9 +33,9 @@ public class PlaylistController {
 
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/{id}")
-    public Response deletePlaylist(@QueryParam("token") String token, @PathParam("id") int id) {
-        return Response.status(200).entity(playlistDomain.delete(id, token)).build();
+    @Path("/{playlistId}")
+    public Response deletePlaylist(@QueryParam("token") String token, @PathParam("playlistId") int playlistId) {
+        return Response.status(200).entity(playlistDomain.delete(playlistId, token)).build();
     }
 
     @POST
@@ -48,16 +48,16 @@ public class PlaylistController {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/{id}")
-    public Response editPlaylistName(@QueryParam("token") String token, @PathParam("id") int id, PlaylistDTO playlistDTO) {
-        return Response.status(200).entity(playlistDomain.update(token, id, playlistDTO)).build();
+    @Path("/{playlistId}")
+    public Response editPlaylistName(@QueryParam("token") String token, @PathParam("playlistId") int playlistId, PlaylistDTO playlistDTO) {
+        return Response.status(200).entity(playlistDomain.update(token, playlistId, playlistDTO)).build();
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/{id}/tracks")
-    public Response getTracksFromPlaylist(@QueryParam("token") String token, @PathParam("id") int id) {
-        return Response.status(200).entity(trackDomain.getAllTracksInPlaylist(token, id)).build();
+    @Path("/{playlistId}/tracks")
+    public Response getTracksFromPlaylist(@QueryParam("token") String token, @PathParam("playlistId") int playlistId) {
+        return Response.status(200).entity(trackDomain.getAllTracksInPlaylist(token, playlistId)).build();
     }
 
     @DELETE

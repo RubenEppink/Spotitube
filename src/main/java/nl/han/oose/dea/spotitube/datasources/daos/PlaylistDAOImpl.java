@@ -49,11 +49,11 @@ public class PlaylistDAOImpl implements PlaylistDAO {
     }
 
     @Override
-    public void delete(int id, String token) {
+    public void delete(int playlistId, String token) {
         try {
             connection = dbConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM playlist WHERE playlist_id = ? AND token = ?");
-            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(1, playlistId);
             preparedStatement.setString(2, token);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -79,12 +79,12 @@ public class PlaylistDAOImpl implements PlaylistDAO {
     }
 
     @Override
-    public void update(String token, int id, PlaylistDTO playlistDTO) {
+    public void update(String token, int playlistId, PlaylistDTO playlistDTO) {
         try {
             connection = dbConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE playlist SET name = ? WHERE playlist_id = ? AND token = ?");
             preparedStatement.setString(1, playlistDTO.getName());
-            preparedStatement.setInt(2, id);
+            preparedStatement.setInt(2, playlistId);
             preparedStatement.setString(3, token);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

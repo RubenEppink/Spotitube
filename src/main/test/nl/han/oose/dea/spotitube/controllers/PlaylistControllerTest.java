@@ -1,9 +1,10 @@
 package nl.han.oose.dea.spotitube.controllers;
 
-import nl.han.oose.dea.spotitube.domains.PlaylistDomain;
+import nl.han.oose.dea.spotitube.domains.interfaces.PlaylistDomain;
 import nl.han.oose.dea.spotitube.controllers.dtos.PlaylistDTO;
 import nl.han.oose.dea.spotitube.controllers.dtos.PlaylistsDTO;
 import nl.han.oose.dea.spotitube.controllers.dtos.TrackDTO;
+import nl.han.oose.dea.spotitube.domains.PlaylistDomainImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,7 @@ class PlaylistControllerTest {
     @BeforeEach
     void setUp() {
         playlistControllerUnderTest = new PlaylistController();
-        mockedPlaylistDomain = mock(PlaylistDomain.class);
+        mockedPlaylistDomain = mock(PlaylistDomainImpl.class);
         playlistControllerUnderTest.setPlaylistDomain(mockedPlaylistDomain);
         token = "123456";
     }

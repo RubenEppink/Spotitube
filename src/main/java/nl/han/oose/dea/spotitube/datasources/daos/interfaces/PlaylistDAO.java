@@ -4,8 +4,8 @@ import nl.han.oose.dea.spotitube.controllers.dtos.PlaylistDTO;
 import nl.han.oose.dea.spotitube.controllers.dtos.PlaylistsDTO;
 
 public interface PlaylistDAO {
-    public PlaylistsDTO getAll(String token);
-    public void delete(int id, String token);
-    public void create(String token, PlaylistDTO playlistDTO);
-    public void update(String token, int id, PlaylistDTO playlistDTO);
+     PlaylistsDTO getAll(String token);
+     void delete(int playlistId, String token);
+     void create(String token, PlaylistDTO playlistDTO);
+     void update(String token, int playlistId, PlaylistDTO playlistDTO);
 }
