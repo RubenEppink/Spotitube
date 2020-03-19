@@ -1,6 +1,7 @@
 package nl.han.oose.dea.spotitube.controllers;
 
 import nl.han.oose.dea.spotitube.controllers.dtos.PlaylistDTO;
+import nl.han.oose.dea.spotitube.controllers.dtos.TrackDTO;
 import nl.han.oose.dea.spotitube.domains.PlaylistDomain;
 import nl.han.oose.dea.spotitube.domains.TrackDomain;
 
@@ -61,12 +62,20 @@ public class PlaylistController {
 
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("{playlistId}/tracks/{trackId}")
+    @Path("/{playlistId}/tracks/{trackId}")
     public Response deleteTrackFromPlaylist(@QueryParam("token") String token,
                                             @PathParam("playlistId") int playlistId,
                                             @PathParam("trackId") int trackId) {
         return Response.status(200).entity(trackDomain.deleteTrackFromPlaylist(token, playlistId, trackId)).build();
     }
 
-
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{playlistId}/tracks")
+    public Response deleteTrackFromPlaylist(@QueryParam("token") String token,
+                                            @PathParam("playlistId") int playlistId,
+                                            TrackDTO trackDTO) {
+        return Response.status(201).entity(trackDomain.addTrackToPlaylist(token, playlistId, trackDTO)).build();
+    }
 }

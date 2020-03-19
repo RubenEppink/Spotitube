@@ -22,6 +22,35 @@ public class TrackDAOImpl implements TrackDAO {
 
 
     @Override
+    public TrackDTO get(int trackId) {
+        try {
+            connection = dbConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM track WHERE track_id = ?");
+            preparedStatement.setInt(1, trackId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                return new TrackDTO(
+                        resultSet.getInt("track_id"),
+                        resultSet.getString("title"),
+                        resultSet.getString("performer"),
+                        resultSet.getInt("duration"),
+                        resultSet.getString("album"),
+                        resultSet.getInt("play_count"),
+                        resultSet.getString("publication_date"),
+                        resultSet.getString("description"),
+                        resultSet.getBoolean("offline_available")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            dbConnection.closeConnection();
+        }
+        return null;
+    }
+
+    @Override
     public TracksDTO getAllNotInPlaylist(String token, int playlistId) {
         TracksDTO tracksDTO = new TracksDTO();
 
@@ -118,12 +147,33 @@ public class TrackDAOImpl implements TrackDAO {
     }
 
     @Override
-    public void create(String token, TrackDTO trackDTO) {
+    public void addToPlaylist(String token, int playlistId, TrackDTO trackDTO) {
+        try {
+            connection = dbConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO track_in_playlist(track_id, playlist_id) VALUES(?, ?)");
+            preparedStatement.setInt(1, trackDTO.getId());
+            preparedStatement.setInt(2, playlistId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            dbConnection.closeConnection();
+        }
 
     }
 
     @Override
-    public void update(String token, int id, TrackDTO trackDTO) {
-
+    public void update(String token, int playlistId, TrackDTO trackDTO) {
+        try {
+            connection = dbConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE track SET offline_available = ? WHERE track_id = ?");
+            preparedStatement.setBoolean(1, trackDTO.isOfflineAvailable());
+            preparedStatement.setInt(2, trackDTO.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            dbConnection.closeConnection();
+        }
     }
 }
