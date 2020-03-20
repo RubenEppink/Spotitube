@@ -13,11 +13,11 @@ import java.sql.SQLException;
 
 public class LoginDAOImpl implements LoginDAO {
     private DBConnection dbConnection;
-    private Assembler<LoginDTO> assembler;
+    private Assembler<LoginDTO> loginAssembler;
 
     @Inject
-    public void setAssembler(Assembler<LoginDTO> assembler) {
-        this.assembler = assembler;
+    public void setLoginAssembler(Assembler<LoginDTO> loginAssembler) {
+        this.loginAssembler = loginAssembler;
     }
 
     @Inject
@@ -29,21 +29,23 @@ public class LoginDAOImpl implements LoginDAO {
     public LoginDTO read(String userLogin) {
 
         try {
-            Connection connection = dbConnection.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM logi" +
-                    "n WHERE user_login = ?");
-            preparedStatement.setString(1, userLogin);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            //kan dit ook anders?
-            return assembler.toDTO(resultSet);
+            return loginAssembler.toDTO( getLoginResultSet(userLogin));
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            dbConnection.closeConnection();
+            dbConnection.closeConnection(connection);
 
         }
 
         return null;
+    }
+
+    private ResultSet getLoginResultSet(String userLogin) throws SQLException {
+        Connection connection = dbConnection.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM logi" +
+                "n WHERE user_login = ?");
+        preparedStatement.setString(1, userLogin);
+
+        return preparedStatement.executeQuery();
     }
 }

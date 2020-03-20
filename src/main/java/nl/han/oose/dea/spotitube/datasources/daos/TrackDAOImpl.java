@@ -37,84 +37,38 @@ public class TrackDAOImpl implements TrackDAO {
     @Override
     public TrackDTO get(int trackId) {
         try {
-            connection = dbConnection.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM track WHERE track_id = ?");
-            preparedStatement.setInt(1, trackId);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            return trackAssembler.toDTO(resultSet);
-
+            return trackAssembler.toDTO(getTrackResultSet(trackId));
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            dbConnection.closeConnection();
+            dbConnection.closeConnection(connection);
         }
+
         return null;
     }
 
     @Override
     public TracksDTO getAllNotInPlaylist(String token, int playlistId) {
-        TracksDTO tracksDTO = new TracksDTO();
 
         try {
-            connection = dbConnection.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM track T\n" +
-                    "WHERE" +
-                    " T.track_id NOT IN(\n" +
-                    "\tSELECT TIP.track_id\n" +
-                    "    FROM playlist P JOIN track_in_playlist TIP \n" +
-                    "\t\t\t\t\t\tON p.playlist_id = tip.playlist_id\n" +
-                    "                        WHERE p.playlist_id = ? AND p.token = ?\n" +
-                    ") ");
-            preparedStatement.setInt(1, playlistId);
-            preparedStatement.setString(2, token);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                tracksDTO.getTracks().add(new TrackDTO(
-                        resultSet.getInt("track_id"),
-                        resultSet.getString("title"),
-                        resultSet.getString("performer"),
-                        resultSet.getInt("duration"),
-                        resultSet.getString("album"),
-                        resultSet.getInt("play_count"),
-                        resultSet.getString("publication_date"),
-                        resultSet.getString("description"),
-                        resultSet.getBoolean("offline_available")
-                ));
-            }
+            return tracksAssembler.toDTO(getAllResultSet(token, playlistId, " T.track_id NOT IN(\n"));
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            dbConnection.closeConnection();
+            dbConnection.closeConnection(connection);
         }
-
-        return tracksDTO;
+        return null;
     }
 
     @Override
     public TracksDTO getAllInPlaylist(String token, int playlistId) {
 
         try {
-            connection = dbConnection.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM track T\n" +
-                    "WHERE" +
-                    " T.track_id IN(\n" +
-                    "\tSELECT TIP.track_id\n" +
-                    "    FROM playlist P JOIN track_in_playlist TIP \n" +
-                    "\t\t\t\t\t\tON p.playlist_id = tip.playlist_id\n" +
-                    "                        WHERE p.playlist_id = ? AND p.token = ?\n" +
-                    ") ");
-            preparedStatement.setInt(1, playlistId);
-            preparedStatement.setString(2, token);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-           tracksAssembler.toDTO(resultSet);
-
+            return tracksAssembler.toDTO(getAllResultSet(token, playlistId, " T.track_id IN(\n"));
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            dbConnection.closeConnection();
+            dbConnection.closeConnection(connection);
         }
 
         return null;
@@ -123,31 +77,22 @@ public class TrackDAOImpl implements TrackDAO {
     @Override
     public void delete(String token, int playlistId, int trackId) {
         try {
-            connection = dbConnection.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM track_in_playlist " +
-                    "WHERE playlist_id = ? AND track_id = ?");
-            preparedStatement.setInt(1, playlistId);
-            preparedStatement.setInt(2, trackId);
-            preparedStatement.executeUpdate();
+            executeDelete(playlistId, trackId);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            dbConnection.closeConnection();
+            dbConnection.closeConnection(connection);
         }
     }
 
     @Override
     public void addToPlaylist(String token, int playlistId, TrackDTO trackDTO) {
         try {
-            connection = dbConnection.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO track_in_playlist(track_id, playlist_id) VALUES(?, ?)");
-            preparedStatement.setInt(1, trackDTO.getId());
-            preparedStatement.setInt(2, playlistId);
-            preparedStatement.executeUpdate();
+            executeAddToPlaylist(playlistId, trackDTO);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            dbConnection.closeConnection();
+            dbConnection.closeConnection(connection);
         }
 
     }
@@ -155,15 +100,58 @@ public class TrackDAOImpl implements TrackDAO {
     @Override
     public void update(String token, int playlistId, TrackDTO trackDTO) {
         try {
-            connection = dbConnection.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE track SET offline_available = ? WHERE track_id = ?");
-            preparedStatement.setBoolean(1, trackDTO.isOfflineAvailable());
-            preparedStatement.setInt(2, trackDTO.getId());
-            preparedStatement.executeUpdate();
+            executeUpdate(trackDTO);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            dbConnection.closeConnection();
+            dbConnection.closeConnection(connection);
         }
+    }
+
+    private void executeUpdate(TrackDTO trackDTO) throws SQLException {
+        connection = dbConnection.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE track SET offline_available = ? WHERE track_id = ?");
+        preparedStatement.setBoolean(1, trackDTO.isOfflineAvailable());
+        preparedStatement.setInt(2, trackDTO.getId());
+        preparedStatement.executeUpdate();
+    }
+
+    private ResultSet getTrackResultSet(int trackId) throws SQLException {
+        connection = dbConnection.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM track WHERE track_id = ?");
+        preparedStatement.setInt(1, trackId);
+        return preparedStatement.executeQuery();
+    }
+
+    private void executeAddToPlaylist(int playlistId, TrackDTO trackDTO) throws SQLException {
+        connection = dbConnection.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO track_in_playlist(track_id, playlist_id) VALUES(?, ?)");
+        preparedStatement.setInt(1, trackDTO.getId());
+        preparedStatement.setInt(2, playlistId);
+        preparedStatement.executeUpdate();
+    }
+
+    private void executeDelete(int playlistId, int trackId) throws SQLException {
+        connection = dbConnection.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM track_in_playlist " +
+                "WHERE playlist_id = ? AND track_id = ?");
+        preparedStatement.setInt(1, playlistId);
+        preparedStatement.setInt(2, trackId);
+        preparedStatement.executeUpdate();
+    }
+
+    private ResultSet getAllResultSet(String token, int playlistId, String query) throws SQLException {
+        connection = dbConnection.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM track T\n" +
+                "WHERE" +
+                query +
+                "\tSELECT TIP.track_id\n" +
+                "    FROM playlist P JOIN track_in_playlist TIP \n" +
+                "\t\t\t\t\t\tON p.playlist_id = tip.playlist_id\n" +
+                "                        WHERE p.playlist_id = ? AND p.token = ?\n" +
+                ") ");
+        preparedStatement.setInt(1, playlistId);
+        preparedStatement.setString(2, token);
+        return preparedStatement.executeQuery();
     }
 }
