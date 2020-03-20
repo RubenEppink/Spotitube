@@ -37,7 +37,7 @@ class PlaylistDomainTest {
         when(mockedPlaylistDAO.getAll(token)).thenReturn(playlistsDTO);
 
         // Run the test
-        final PlaylistsDTO result = playlistDomainUnderTest.getAll(token);
+        final PlaylistsDTO result = playlistDomainUnderTest.getAllPlaylists(token);
 
         // Verify the results
         Assertions.assertEquals(playlistsDTO, result);
@@ -54,7 +54,7 @@ class PlaylistDomainTest {
         when(mockedPlaylistDAO.getAll(token)).thenReturn(playlistsDTO);
 
         // Run the test
-        final PlaylistsDTO result = playlistDomainUnderTest.getAll(token);
+        final PlaylistsDTO result = playlistDomainUnderTest.getAllPlaylists(token);
 
         // Verify the results
         verify(mockedPlaylistDAO).getAll(token);
@@ -73,7 +73,7 @@ class PlaylistDomainTest {
         when(mockedPlaylistDAO.getAll(token)).thenReturn(playlistsDTO);
 
         // Run the test
-        final PlaylistsDTO result = playlistDomainUnderTest.delete(0, token);
+        final PlaylistsDTO result = playlistDomainUnderTest.deletePlaylist(0, token);
 
         // Verify the results
         verify(mockedPlaylistDAO).delete(0, token);
@@ -90,7 +90,7 @@ class PlaylistDomainTest {
         when(mockedPlaylistDAO.getAll(token)).thenReturn(playlistsDTO);
 
         // Run the test
-        final PlaylistsDTO result = playlistDomainUnderTest.delete(0, token);
+        final PlaylistsDTO result = playlistDomainUnderTest.deletePlaylist(0, token);
 
         // Verify the results
         Assertions.assertEquals(playlistsDTO, result);

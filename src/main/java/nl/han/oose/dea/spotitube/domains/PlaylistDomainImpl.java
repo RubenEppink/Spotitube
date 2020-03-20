@@ -17,26 +17,26 @@ public class PlaylistDomainImpl implements PlaylistDomain {
 
 
     @Override
-    public PlaylistsDTO getAll(String token) {
+    public PlaylistsDTO getAllPlaylists(String token) {
         return playlistDAO.getAll(token);
     }
 
     @Override
-    public PlaylistsDTO delete(int playlistId, String token) {
+    public PlaylistsDTO deletePlaylist(int playlistId, String token) {
         playlistDAO.delete(playlistId, token);
         return playlistDAO.getAll(token);
     }
 
     @Override
-    public PlaylistsDTO create(String token, PlaylistDTO playlistDTO) {
+    public PlaylistsDTO addPlaylist(String token, PlaylistDTO playlistDTO) {
         playlistDAO.create(token, playlistDTO);
-        return getAll(token);
+        return getAllPlaylists(token);
     }
 
     @Override
-    public PlaylistsDTO update(String token, int playlistId, PlaylistDTO playlistDTO) {
+    public PlaylistsDTO editPlaylistName(String token, int playlistId, PlaylistDTO playlistDTO) {
         playlistDAO.update(token, playlistId, playlistDTO);
-        return getAll(token);
+        return getAllPlaylists(token);
     }
 }
 

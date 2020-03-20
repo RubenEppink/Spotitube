@@ -8,7 +8,7 @@ import javax.inject.Inject;
 
 public interface TrackDomain {
 
-    TracksDTO getAllTracksInPlaylist(String token, int playlistId);
+    TracksDTO getTracksFromPlaylist(String token, int playlistId);
 
     TracksDTO getAllTracksNotInPlaylist(String token, int playlistId);
 

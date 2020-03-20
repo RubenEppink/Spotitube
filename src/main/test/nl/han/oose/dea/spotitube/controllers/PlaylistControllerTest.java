@@ -17,10 +17,10 @@ import static org.mockito.Mockito.*;
 
 class PlaylistControllerTest {
     public static final int PLAYLIST_ID = 0;
+    public static final int TRACK_ID = 1;
     public static final int HTTP_STATUS_OK = 200;
     public static final int HTTP_STATUS_CREATED = 201;
     public static final String TOKEN = "123456";
-
 
     private PlaylistController playlistControllerUnderTest;
     private PlaylistDomain mockedPlaylistDomain;
@@ -52,7 +52,7 @@ class PlaylistControllerTest {
     @Test
     void testGetAllPlaylistsResponseEntity() {
         // Setup
-        when(mockedPlaylistDomain.getAll(TOKEN)).thenReturn(playlistsDTO);
+        when(mockedPlaylistDomain.getAllPlaylists(TOKEN)).thenReturn(playlistsDTO);
 
         // Run the test
         final Response result = playlistControllerUnderTest.getAllPlaylists(TOKEN);
@@ -64,7 +64,7 @@ class PlaylistControllerTest {
     @Test
     void testGetAllPlaylistsResponseStatus() {
         // Setup
-        when(mockedPlaylistDomain.getAll(TOKEN)).thenReturn(playlistsDTO);
+        when(mockedPlaylistDomain.getAllPlaylists(TOKEN)).thenReturn(playlistsDTO);
 
         // Run the test
         final Response result = playlistControllerUnderTest.getAllPlaylists(TOKEN);
@@ -77,31 +77,31 @@ class PlaylistControllerTest {
     @Test
     void testGetAllPlaylistsCallsGetAll() {
         // Setup
-        when(mockedPlaylistDomain.getAll(TOKEN)).thenReturn(playlistsDTO);
+        when(mockedPlaylistDomain.getAllPlaylists(TOKEN)).thenReturn(playlistsDTO);
 
         // Run the test
         final Response result = playlistControllerUnderTest.getAllPlaylists(TOKEN);
 
         // Verify the results
-        verify(mockedPlaylistDomain).getAll(TOKEN);
+        verify(mockedPlaylistDomain).getAllPlaylists(TOKEN);
     }
 
     @Test
     void testDeletePlaylistCallsDelete() {
         // Setup
-        when(mockedPlaylistDomain.getAll(TOKEN)).thenReturn(playlistsDTO);
+        when(mockedPlaylistDomain.getAllPlaylists(TOKEN)).thenReturn(playlistsDTO);
 
         // Run the test
         final Response result = playlistControllerUnderTest.deletePlaylist(TOKEN, PLAYLIST_ID);
 
         // Verify the results
-        verify(mockedPlaylistDomain).delete(PLAYLIST_ID, TOKEN);
+        verify(mockedPlaylistDomain).deletePlaylist(PLAYLIST_ID, TOKEN);
     }
 
     @Test
     void testDeletePlaylistResponseEntity() {
         // Setup
-        when(mockedPlaylistDomain.delete(PLAYLIST_ID, TOKEN)).thenReturn(playlistsDTO);
+        when(mockedPlaylistDomain.deletePlaylist(PLAYLIST_ID, TOKEN)).thenReturn(playlistsDTO);
 
         // Run the test
         final Response result = playlistControllerUnderTest.deletePlaylist(TOKEN, PLAYLIST_ID);
@@ -113,7 +113,7 @@ class PlaylistControllerTest {
     @Test
     void testDeletePlaylistResponseStatus() {
         // Setup
-        when(mockedPlaylistDomain.delete(PLAYLIST_ID, TOKEN)).thenReturn(playlistsDTO);
+        when(mockedPlaylistDomain.deletePlaylist(PLAYLIST_ID, TOKEN)).thenReturn(playlistsDTO);
 
         // Run the test
         final Response result = playlistControllerUnderTest.deletePlaylist(TOKEN, PLAYLIST_ID);
@@ -123,91 +123,174 @@ class PlaylistControllerTest {
     }
 
     @Test
-    void testAddPlaylist() {
+    void testAddPlaylistResponseStatus() {
         // Setup
-        when(mockedPlaylistDomain.create(TOKEN, playlistDTO)).thenReturn(playlistsDTO);
+        when(mockedPlaylistDomain.addPlaylist(TOKEN, playlistDTO)).thenReturn(playlistsDTO);
 
         // Run the test
         final Response result = playlistControllerUnderTest.addPlaylist(playlistDTO, TOKEN);
 
         // Verify the results
         Assertions.assertEquals(HTTP_STATUS_CREATED, result.getStatus());
-        Assertions.assertEquals(playlistsDTO, result.getEntity());
-        verify(mockedPlaylistDomain).create(TOKEN, playlistDTO);
 
     }
 
     @Test
-    void testDeletePlaylist() {
+    void testAddPlaylistResponseEntity() {
         // Setup
+        when(mockedPlaylistDomain.addPlaylist(TOKEN, playlistDTO)).thenReturn(playlistsDTO);
 
         // Run the test
-        final Response result = playlistControllerUnderTest.deletePlaylist(TOKEN, PLAYLIST_ID);
+        final Response result = playlistControllerUnderTest.addPlaylist(playlistDTO, TOKEN);
 
         // Verify the results
+        Assertions.assertEquals(playlistsDTO, result.getEntity());
     }
 
     @Test
-    void testDeleteTrackFromPlaylist() {
+    void testAddPlaylistResponseCallsAddPlaylist() {
         // Setup
+        when(mockedPlaylistDomain.addPlaylist(TOKEN, playlistDTO)).thenReturn(playlistsDTO);
+
+        // Run the test
+        final Response result = playlistControllerUnderTest.addPlaylist(playlistDTO, TOKEN);
+
+        // Verify the results
+        verify(mockedPlaylistDomain).addPlaylist(TOKEN, playlistDTO);
+    }
+
+
+    @Test
+    void testDeleteTrackFromPlaylistResponseStatus() {
+        // Setup
+        when(mockedTrackDomain.deleteTrackFromPlaylist(TOKEN, PLAYLIST_ID, TRACK_ID)).thenReturn(tracksDTO);
 
         // Run the test
         final Response result = playlistControllerUnderTest.deleteTrackFromPlaylist(TOKEN, PLAYLIST_ID, PLAYLIST_ID);
 
         // Verify the results
+        Assertions.assertEquals(HTTP_STATUS_OK, result.getStatus());
+
     }
 
     @Test
-    void testDeleteTrackFromPlaylist1() {
+    void testDeleteTrackFromPlaylistCallsDeleteTrackFromPlaylist() {
         // Setup
-        final TrackDTO trackDTO = new TrackDTO(PLAYLIST_ID, "title", "performer", PLAYLIST_ID, "album", PLAYLIST_ID, "publicationDate", "description", false);
+        when(mockedTrackDomain.deleteTrackFromPlaylist(TOKEN, PLAYLIST_ID, TRACK_ID)).thenReturn(tracksDTO);
 
         // Run the test
-        final Response result = playlistControllerUnderTest.deleteTrackFromPlaylist(TOKEN, PLAYLIST_ID, trackDTO);
+        final Response result = playlistControllerUnderTest.deleteTrackFromPlaylist(TOKEN, PLAYLIST_ID, PLAYLIST_ID);
 
         // Verify the results
+        verify(mockedTrackDomain).deleteTrackFromPlaylist(TOKEN, PLAYLIST_ID, PLAYLIST_ID);
+    }
+
+
+    @Test
+    void testAddTrackToPlaylistResponseStatus() {
+        // Setup
+        when(mockedTrackDomain.addTrackToPlaylist(TOKEN, PLAYLIST_ID, trackDTO)).thenReturn(tracksDTO);
+
+        // Run the test
+        final Response result = playlistControllerUnderTest.addTrackToPlaylist(TOKEN, PLAYLIST_ID, trackDTO);
+
+        // Verify the results
+        Assertions.assertEquals(HTTP_STATUS_CREATED, result.getStatus());
     }
 
     @Test
-    void testEditPlaylistName() {
+    void testAddTrackToPlaylistResponseEntity() {
         // Setup
-        when(mockedPlaylistDomain.update(TOKEN, PLAYLIST_ID, playlistDTO)).thenReturn(playlistsDTO);
+        when(mockedTrackDomain.addTrackToPlaylist(TOKEN, PLAYLIST_ID, trackDTO)).thenReturn(tracksDTO);
+
+        // Run the test
+        final Response result = playlistControllerUnderTest.addTrackToPlaylist(TOKEN, PLAYLIST_ID, trackDTO);
+
+        // Verify the results
+        Assertions.assertEquals(tracksDTO, result.getEntity());
+    }
+
+    @Test
+    void testAddTrackToPlaylistCallsAddTrackToPlaylist() {
+        // Setup
+        when(mockedTrackDomain.addTrackToPlaylist(TOKEN, PLAYLIST_ID, trackDTO)).thenReturn(tracksDTO);
+
+        // Run the test
+        final Response result = playlistControllerUnderTest.addTrackToPlaylist(TOKEN, PLAYLIST_ID, trackDTO);
+
+        // Verify the results
+        verify(mockedTrackDomain).addTrackToPlaylist(TOKEN, PLAYLIST_ID, trackDTO);
+    }
+
+    @Test
+    void testEditPlaylistNameResponseStatus() {
+        // Setup
+        when(mockedPlaylistDomain.editPlaylistName(TOKEN, PLAYLIST_ID, playlistDTO)).thenReturn(playlistsDTO);
 
         // Run the test
         final Response result = playlistControllerUnderTest.editPlaylistName(TOKEN, PLAYLIST_ID, playlistDTO);
 
         // Verify the results
-        verify(mockedPlaylistDomain).update(TOKEN, PLAYLIST_ID, playlistDTO);
-        Assertions.assertEquals(playlistsDTO, result.getEntity());
         Assertions.assertEquals(HTTP_STATUS_OK, result.getStatus());
-
     }
 
     @Test
-    void testGetAllPlaylists() {
+    void testEditPlaylistNameResponseEntity() {
         // Setup
-        when(mockedPlaylistDomain.getAll(TOKEN)).thenReturn(playlistsDTO);
+        when(mockedPlaylistDomain.editPlaylistName(TOKEN, PLAYLIST_ID, playlistDTO)).thenReturn(playlistsDTO);
 
         // Run the test
-        final Response result = playlistControllerUnderTest.getAllPlaylists(TOKEN);
+        final Response result = playlistControllerUnderTest.editPlaylistName(TOKEN, PLAYLIST_ID, playlistDTO);
 
         // Verify the results
-        verify(mockedPlaylistDomain).getAll(TOKEN);
         Assertions.assertEquals(playlistsDTO, result.getEntity());
-        Assertions.assertEquals(HTTP_STATUS_OK, result.getStatus());
     }
 
     @Test
-    void testGetTracksFromPlaylist() {
+    void testEditPlaylistNameCallsEditPlaylistName() {
         // Setup
-        when(mockedTrackDomain.getAllTracksInPlaylist(TOKEN, PLAYLIST_ID)).thenReturn(tracksDTO);
+        when(mockedPlaylistDomain.editPlaylistName(TOKEN, PLAYLIST_ID, playlistDTO)).thenReturn(playlistsDTO);
+
+        // Run the test
+        final Response result = playlistControllerUnderTest.editPlaylistName(TOKEN, PLAYLIST_ID, playlistDTO);
+
+        // Verify the results
+        verify(mockedPlaylistDomain).editPlaylistName(TOKEN, PLAYLIST_ID, playlistDTO);
+    }
+
+    @Test
+    void testGetTracksFromPlaylistResponseStatus() {
+        // Setup
+        when(mockedTrackDomain.getTracksFromPlaylist(TOKEN, PLAYLIST_ID)).thenReturn(tracksDTO);
 
         // Run the test
         final Response result = playlistControllerUnderTest.getTracksFromPlaylist(TOKEN, PLAYLIST_ID);
 
         // Verify the results
-        verify(mockedTrackDomain).getAllTracksInPlaylist(TOKEN, PLAYLIST_ID);
-        Assertions.assertEquals(tracksDTO, result.getEntity());
         Assertions.assertEquals(HTTP_STATUS_OK, result.getStatus());
+    }
+
+    @Test
+    void testGetTracksFromPlaylistResponseEntity() {
+        // Setup
+        when(mockedTrackDomain.getTracksFromPlaylist(TOKEN, PLAYLIST_ID)).thenReturn(tracksDTO);
+
+        // Run the test
+        final Response result = playlistControllerUnderTest.getTracksFromPlaylist(TOKEN, PLAYLIST_ID);
+
+        // Verify the results
+        Assertions.assertEquals(tracksDTO, result.getEntity());
+    }
+
+    @Test
+    void testGetTracksFromPlaylistCallsGetTracksFromPlaylist() {
+        // Setup
+        when(mockedTrackDomain.getTracksFromPlaylist(TOKEN, PLAYLIST_ID)).thenReturn(tracksDTO);
+
+        // Run the test
+        final Response result = playlistControllerUnderTest.getTracksFromPlaylist(TOKEN, PLAYLIST_ID);
+
+        // Verify the results
+        verify(mockedTrackDomain).getTracksFromPlaylist(TOKEN, PLAYLIST_ID);
     }
 }

@@ -16,7 +16,7 @@ public class TrackDomainImpl implements TrackDomain {
     }
 
     @Override
-    public TracksDTO getAllTracksInPlaylist(String token, int playlistId) {
+    public TracksDTO getTracksFromPlaylist(String token, int playlistId) {
         return trackDAO.getAllInPlaylist(token, playlistId);
     }
 
@@ -28,7 +28,7 @@ public class TrackDomainImpl implements TrackDomain {
     @Override
     public TracksDTO deleteTrackFromPlaylist(String token, int playlistId, int trackId) {
         trackDAO.delete(token, playlistId, trackId);
-        return getAllTracksInPlaylist(token, playlistId);
+        return getTracksFromPlaylist(token, playlistId);
     }
 
     @Override
@@ -42,6 +42,6 @@ public class TrackDomainImpl implements TrackDomain {
             trackDAO.addToPlaylist(token, playlistId, trackDTO);
         }
 
-        return getAllTracksInPlaylist(token, playlistId);
+        return getTracksFromPlaylist(token, playlistId);
     }
 }

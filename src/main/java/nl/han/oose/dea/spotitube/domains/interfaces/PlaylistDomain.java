@@ -4,11 +4,11 @@ import nl.han.oose.dea.spotitube.controllers.dtos.PlaylistDTO;
 import nl.han.oose.dea.spotitube.controllers.dtos.PlaylistsDTO;
 
 public interface PlaylistDomain {
-    PlaylistsDTO getAll(String token);
+    PlaylistsDTO getAllPlaylists(String token);
 
-    PlaylistsDTO delete(int playlistId, String token);
+    PlaylistsDTO deletePlaylist(int playlistId, String token);
 
-    PlaylistsDTO create(String token, PlaylistDTO playlistDTO);
+    PlaylistsDTO addPlaylist(String token, PlaylistDTO playlistDTO);
 
-    PlaylistsDTO update(String token, int playlistId, PlaylistDTO playlistDTO);
+    PlaylistsDTO editPlaylistName(String token, int playlistId, PlaylistDTO playlistDTO);
 }

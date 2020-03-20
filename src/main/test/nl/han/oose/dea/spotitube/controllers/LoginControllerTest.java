@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.core.Response;
 
 import static org.mockito.Mockito.*;
@@ -45,11 +46,11 @@ class LoginControllerTest {
     void testValidateLoginThrowsException() {
         // Setup
         final LoginDTO loginDTO = new LoginDTO("ruben", "wachtwoord");
-        doThrow(InvalidCredentialsException.class).when(mockedLoginDomain).validateCredentials(loginDTO);
+        doThrow(NotAuthorizedException.class).when(mockedLoginDomain).validateCredentials(loginDTO);
 
         // Run the tes
         // Verify the results
-        Assertions.assertThrows(InvalidCredentialsException.class,
+        Assertions.assertThrows(NotAuthorizedException.class,
                 () -> loginControllerUnderTest.login(loginDTO));
     }
 }

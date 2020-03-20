@@ -2,7 +2,7 @@ package nl.han.oose.dea.spotitube.datasources.daos;
 
 import nl.han.oose.dea.spotitube.controllers.dtos.TrackDTO;
 import nl.han.oose.dea.spotitube.controllers.dtos.TracksDTO;
-import nl.han.oose.dea.spotitube.datasources.assemblers.Assembler;
+import nl.han.oose.dea.spotitube.datasources.datamappers.DataMapper;
 import nl.han.oose.dea.spotitube.datasources.connections.DBConnection;
 import nl.han.oose.dea.spotitube.datasources.daos.interfaces.TrackDAO;
 
@@ -15,17 +15,17 @@ import java.sql.SQLException;
 public class TrackDAOImpl implements TrackDAO {
     private Connection connection;
     private DBConnection dbConnection;
-    private Assembler<TrackDTO> trackAssembler;
-    private Assembler<TracksDTO> tracksAssembler;
+    private DataMapper<TrackDTO> trackDataMapper;
+    private DataMapper<TracksDTO> tracksDataMapper;
 
     @Inject
-    public void setTracksAssembler(Assembler<TracksDTO> tracksAssembler) {
-        this.tracksAssembler = tracksAssembler;
+    public void setTracksDataMapper(DataMapper<TracksDTO> tracksDataMapper) {
+        this.tracksDataMapper = tracksDataMapper;
     }
 
     @Inject
-    public void setTrackAssembler(Assembler<TrackDTO> trackAssembler) {
-        this.trackAssembler = trackAssembler;
+    public void setTrackDataMapper(DataMapper<TrackDTO> trackDataMapper) {
+        this.trackDataMapper = trackDataMapper;
     }
 
     @Inject
@@ -37,7 +37,7 @@ public class TrackDAOImpl implements TrackDAO {
     @Override
     public TrackDTO get(int trackId) {
         try {
-            return trackAssembler.toDTO(getTrackResultSet(trackId));
+            return trackDataMapper.toDTO(getTrackResultSet(trackId));
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -51,7 +51,7 @@ public class TrackDAOImpl implements TrackDAO {
     public TracksDTO getAllNotInPlaylist(String token, int playlistId) {
 
         try {
-            return tracksAssembler.toDTO(getAllResultSet(token, playlistId, " T.track_id NOT IN(\n"));
+            return tracksDataMapper.toDTO(getAllResultSet(token, playlistId, " T.track_id NOT IN(\n"));
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -64,7 +64,7 @@ public class TrackDAOImpl implements TrackDAO {
     public TracksDTO getAllInPlaylist(String token, int playlistId) {
 
         try {
-            return tracksAssembler.toDTO(getAllResultSet(token, playlistId, " T.track_id IN(\n"));
+            return tracksDataMapper.toDTO(getAllResultSet(token, playlistId, " T.track_id IN(\n"));
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

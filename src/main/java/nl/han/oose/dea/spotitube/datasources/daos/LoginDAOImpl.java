@@ -1,7 +1,7 @@
 package nl.han.oose.dea.spotitube.datasources.daos;
 
 import nl.han.oose.dea.spotitube.controllers.dtos.LoginDTO;
-import nl.han.oose.dea.spotitube.datasources.assemblers.Assembler;
+import nl.han.oose.dea.spotitube.datasources.datamappers.DataMapper;
 import nl.han.oose.dea.spotitube.datasources.connections.DBConnection;
 import nl.han.oose.dea.spotitube.datasources.daos.interfaces.LoginDAO;
 
@@ -13,23 +13,33 @@ import java.sql.SQLException;
 
 public class LoginDAOImpl implements LoginDAO {
     private DBConnection dbConnection;
-    private Assembler<LoginDTO> loginAssembler;
+    private DataMapper<LoginDTO> loginDataMapper;
+    private Connection connection;
 
     @Inject
-    public void setLoginAssembler(Assembler<LoginDTO> loginAssembler) {
-        this.loginAssembler = loginAssembler;
+    public void setLoginDataMapper(DataMapper<LoginDTO> loginDataMapper) {
+        this.loginDataMapper = loginDataMapper;
     }
 
     @Inject
     public void setDbConnection(DBConnection dbConnection) {
         this.dbConnection = dbConnection;
+        makeConnection(dbConnection);
+    }
+
+    private void makeConnection(DBConnection dbConnection) {
+        try {
+            connection = dbConnection.getConnection();
+        } catch (SQLException e) {
+            
+        }
     }
 
     @Override
     public LoginDTO read(String userLogin) {
 
         try {
-            return loginAssembler.toDTO( getLoginResultSet(userLogin));
+            return loginDataMapper.toDTO( getLoginResultSet(userLogin));
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -41,7 +51,6 @@ public class LoginDAOImpl implements LoginDAO {
     }
 
     private ResultSet getLoginResultSet(String userLogin) throws SQLException {
-        Connection connection = dbConnection.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM logi" +
                 "n WHERE user_login = ?");
         preparedStatement.setString(1, userLogin);

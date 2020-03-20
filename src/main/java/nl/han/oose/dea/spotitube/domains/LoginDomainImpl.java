@@ -9,6 +9,7 @@ import nl.han.oose.dea.spotitube.domains.interfaces.LoginDomain;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.inject.Inject;
+import javax.ws.rs.NotAuthorizedException;
 
 public class LoginDomainImpl implements LoginDomain {
     private LoginDAO loginDAO;
@@ -29,7 +30,7 @@ public class LoginDomainImpl implements LoginDomain {
         if (DigestUtils.sha256Hex(loginDTO.getPassword()).equals(loginDAO.read(loginDTO.getUser()).getPassword())) {
             return userDAO.read(loginDTO.getUser());
         } else {
-            throw new InvalidCredentialsException();
+            throw new NotAuthorizedException("Either the username and/or password wasn't correct!");
         }
     }
 

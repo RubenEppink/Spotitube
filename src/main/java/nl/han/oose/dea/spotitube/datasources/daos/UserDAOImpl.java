@@ -1,7 +1,7 @@
 package nl.han.oose.dea.spotitube.datasources.daos;
 
 import nl.han.oose.dea.spotitube.controllers.dtos.UserDTO;
-import nl.han.oose.dea.spotitube.datasources.assemblers.Assembler;
+import nl.han.oose.dea.spotitube.datasources.datamappers.DataMapper;
 import nl.han.oose.dea.spotitube.datasources.connections.DBConnection;
 import nl.han.oose.dea.spotitube.datasources.daos.interfaces.UserDAO;
 
@@ -15,12 +15,12 @@ import java.util.logging.Logger;
 public class UserDAOImpl implements UserDAO {
     private Connection connection;
     private DBConnection dbConnection;
-    private Assembler<UserDTO> userAssembler;
+    private DataMapper<UserDTO> userDataMapper;
     private final static Logger LOGGER = Logger.getLogger(UserDAOImpl.class.getName());
 
     @Inject
-    public void setUserAssembler(Assembler<UserDTO> userAssembler) {
-        this.userAssembler = userAssembler;
+    public void setUserDataMapper(DataMapper<UserDTO> userDataMapper) {
+        this.userDataMapper = userDataMapper;
     }
 
     @Inject
@@ -31,7 +31,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public UserDTO read(String userLogin) {
         try {
-            return userAssembler.toDTO(getUserResultSet(userLogin));
+            return userDataMapper.toDTO(getUserResultSet(userLogin));
         } catch (SQLException e) {
             LOGGER.warning(e.getSQLState());
         } finally {

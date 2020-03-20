@@ -2,7 +2,7 @@ package nl.han.oose.dea.spotitube.datasources.daos;
 
 import nl.han.oose.dea.spotitube.controllers.dtos.PlaylistDTO;
 import nl.han.oose.dea.spotitube.controllers.dtos.PlaylistsDTO;
-import nl.han.oose.dea.spotitube.datasources.assemblers.Assembler;
+import nl.han.oose.dea.spotitube.datasources.datamappers.DataMapper;
 import nl.han.oose.dea.spotitube.datasources.connections.DBConnection;
 import nl.han.oose.dea.spotitube.datasources.daos.interfaces.PlaylistDAO;
 
@@ -15,11 +15,11 @@ import java.sql.SQLException;
 public class PlaylistDAOImpl implements PlaylistDAO {
     private Connection connection;
     private DBConnection dbConnection;
-    private Assembler<PlaylistsDTO> playlistAssembler;
+    private DataMapper<PlaylistsDTO> playlistDataMapper;
 
     @Inject
-    public void setPlaylistAssembler(Assembler<PlaylistsDTO> playlistAssembler) {
-        this.playlistAssembler = playlistAssembler;
+    public void setPlaylistDataMapper(DataMapper<PlaylistsDTO> playlistDataMapper) {
+        this.playlistDataMapper = playlistDataMapper;
     }
 
     @Inject
@@ -31,7 +31,7 @@ public class PlaylistDAOImpl implements PlaylistDAO {
     public PlaylistsDTO getAll(String token) {
 
         try {
-            return playlistAssembler.toDTO(getAllResultSet(token));
+            return playlistDataMapper.toDTO(getAllResultSet(token));
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

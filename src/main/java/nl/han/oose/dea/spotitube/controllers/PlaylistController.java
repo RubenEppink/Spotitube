@@ -28,21 +28,21 @@ public class PlaylistController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllPlaylists(@QueryParam("token") String token) {
-        return Response.status(200).entity(playlistDomain.getAll(token)).build();
+        return Response.status(200).entity(playlistDomain.getAllPlaylists(token)).build();
     }
 
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{playlistId}")
     public Response deletePlaylist(@QueryParam("token") String token, @PathParam("playlistId") int playlistId) {
-        return Response.status(200).entity(playlistDomain.delete(playlistId, token)).build();
+        return Response.status(200).entity(playlistDomain.deletePlaylist(playlistId, token)).build();
     }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addPlaylist(PlaylistDTO playlistDTO, @QueryParam("token") String token) {
-        return Response.status(201).entity(playlistDomain.create(token, playlistDTO)).build();
+        return Response.status(201).entity(playlistDomain.addPlaylist(token, playlistDTO)).build();
     }
 
     @PUT
@@ -50,14 +50,14 @@ public class PlaylistController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/{playlistId}")
     public Response editPlaylistName(@QueryParam("token") String token, @PathParam("playlistId") int playlistId, PlaylistDTO playlistDTO) {
-        return Response.status(200).entity(playlistDomain.update(token, playlistId, playlistDTO)).build();
+        return Response.status(200).entity(playlistDomain.editPlaylistName(token, playlistId, playlistDTO)).build();
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{playlistId}/tracks")
     public Response getTracksFromPlaylist(@QueryParam("token") String token, @PathParam("playlistId") int playlistId) {
-        return Response.status(200).entity(trackDomain.getAllTracksInPlaylist(token, playlistId)).build();
+        return Response.status(200).entity(trackDomain.getTracksFromPlaylist(token, playlistId)).build();
     }
 
     @DELETE
@@ -73,7 +73,7 @@ public class PlaylistController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{playlistId}/tracks")
-    public Response deleteTrackFromPlaylist(@QueryParam("token") String token,
+    public Response addTrackToPlaylist(@QueryParam("token") String token,
                                             @PathParam("playlistId") int playlistId,
                                             TrackDTO trackDTO) {
         return Response.status(201).entity(trackDomain.addTrackToPlaylist(token, playlistId, trackDTO)).build();
