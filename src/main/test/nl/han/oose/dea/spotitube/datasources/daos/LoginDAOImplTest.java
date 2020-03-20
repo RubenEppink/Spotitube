@@ -36,7 +36,7 @@ class LoginDAOImplTest {
 
         // Verify the results
         verify(mockConnection).close();
-        verify(mockedDBConnection).closeConnection(connection);
+        verify(mockedDBConnection).closeConnection();
     }
 
     @Test

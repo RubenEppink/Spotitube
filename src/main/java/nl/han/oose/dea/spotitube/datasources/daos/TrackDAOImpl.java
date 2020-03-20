@@ -41,7 +41,7 @@ public class TrackDAOImpl implements TrackDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            dbConnection.closeConnection(connection);
+            dbConnection.closeConnection();
         }
 
         return null;
@@ -55,7 +55,7 @@ public class TrackDAOImpl implements TrackDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            dbConnection.closeConnection(connection);
+            dbConnection.closeConnection();
         }
         return null;
     }
@@ -68,7 +68,7 @@ public class TrackDAOImpl implements TrackDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            dbConnection.closeConnection(connection);
+            dbConnection.closeConnection();
         }
 
         return null;
@@ -81,7 +81,7 @@ public class TrackDAOImpl implements TrackDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            dbConnection.closeConnection(connection);
+            dbConnection.closeConnection();
         }
     }
 
@@ -92,7 +92,7 @@ public class TrackDAOImpl implements TrackDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            dbConnection.closeConnection(connection);
+            dbConnection.closeConnection();
         }
 
     }
@@ -104,7 +104,7 @@ public class TrackDAOImpl implements TrackDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            dbConnection.closeConnection(connection);
+            dbConnection.closeConnection();
         }
     }
 

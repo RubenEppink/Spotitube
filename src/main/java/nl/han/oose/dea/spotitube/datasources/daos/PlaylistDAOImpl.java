@@ -35,7 +35,7 @@ public class PlaylistDAOImpl implements PlaylistDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            dbConnection.closeConnection(connection);
+            dbConnection.closeConnection();
         }
         return null;
     }
@@ -47,7 +47,7 @@ public class PlaylistDAOImpl implements PlaylistDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            dbConnection.closeConnection(connection);
+            dbConnection.closeConnection();
         }
     }
 
@@ -58,7 +58,7 @@ public class PlaylistDAOImpl implements PlaylistDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            dbConnection.closeConnection(connection);
+            dbConnection.closeConnection();
         }
     }
 
@@ -69,7 +69,7 @@ public class PlaylistDAOImpl implements PlaylistDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            dbConnection.closeConnection(connection);
+            dbConnection.closeConnection();
         }
     }
 

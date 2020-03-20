@@ -23,7 +23,7 @@ public class SQLDBConnection implements DBConnection {
     }
 
     @Override
-    public void closeConnection(Connection connection) {
+    public void closeConnection() {
         //TODO
 
     }

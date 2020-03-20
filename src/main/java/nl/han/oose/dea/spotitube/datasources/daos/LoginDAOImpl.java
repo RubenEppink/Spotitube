@@ -33,7 +33,7 @@ public class LoginDAOImpl implements LoginDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            dbConnection.closeConnection(connection);
+            dbConnection.closeConnection();
 
         }
 

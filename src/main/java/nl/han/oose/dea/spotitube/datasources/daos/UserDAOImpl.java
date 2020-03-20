@@ -35,7 +35,7 @@ public class UserDAOImpl implements UserDAO {
         } catch (SQLException e) {
             LOGGER.warning(e.getSQLState());
         } finally {
-            dbConnection.closeConnection(connection);
+            dbConnection.closeConnection();
         }
         return null;
     }
