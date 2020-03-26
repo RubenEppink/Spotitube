@@ -4,4 +4,6 @@ import nl.han.oose.dea.spotitube.controllers.dtos.UserDTO;
 
 public interface UserDAO {
      UserDTO read(String userLogin);
+     void makeConnection();
+
 }

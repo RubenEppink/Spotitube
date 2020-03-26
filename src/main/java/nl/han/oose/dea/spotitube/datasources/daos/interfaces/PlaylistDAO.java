@@ -8,4 +8,5 @@ public interface PlaylistDAO {
      void delete(int playlistId, String token);
      void create(String token, PlaylistDTO playlistDTO);
      void update(String token, int playlistId, PlaylistDTO playlistDTO);
+     void makeConnection();
 }

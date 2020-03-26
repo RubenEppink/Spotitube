@@ -28,6 +28,14 @@ public class UserDAOImpl implements UserDAO {
         this.dbConnection = dbConnection;
     }
 
+    public void makeConnection() {
+        try {
+            connection = dbConnection.getConnection();
+        } catch (SQLException e) {
+
+        }
+    }
+
     @Override
     public UserDTO read(String userLogin) {
         try {
@@ -41,7 +49,6 @@ public class UserDAOImpl implements UserDAO {
     }
 
     private ResultSet getUserResultSet(String userLogin) throws SQLException {
-        Connection connection = dbConnection.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM user WHERE user_login = ?");
         preparedStatement.setString(1, userLogin);
         return preparedStatement.executeQuery();

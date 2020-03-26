@@ -36,7 +36,7 @@ public class TrackDomainImpl implements TrackDomain {
         TrackDTO trackDTOInDB = trackDAO.get(trackDTO.getId());
 
         if (trackDTOInDB != null && trackDTOInDB.isOfflineAvailable() == trackDTO.isOfflineAvailable()) {
-            trackDAO.addToPlaylist(token, playlistId, trackDTO);
+                trackDAO.addToPlaylist(token, playlistId, trackDTO);
         } else if (trackDTOInDB != null) {
             trackDAO.update(token, playlistId, trackDTO);
             trackDAO.addToPlaylist(token, playlistId, trackDTO);

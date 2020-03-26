@@ -24,7 +24,7 @@
    - Meerdere dingen in één test, zoals response entity en status in zelfde methode testen? of meerdere malen verify?
    - void methods zoals delete playlist testen?
 
-7.   The server is responsible for generating a unique id, and setting the 'owner' variable accordingly. These must be set on the response object. 
+7.   `The server is responsible for generating a unique id, and setting the 'owner' variable accordingly. These must be set on the response object. `
 
    - owner is altijd true bij create?
 

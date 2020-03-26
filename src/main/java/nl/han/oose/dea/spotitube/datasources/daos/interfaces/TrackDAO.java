@@ -10,4 +10,6 @@ public interface TrackDAO {
      void delete(String token, int playlistId, int trackId);
      void addToPlaylist(String token, int playlistId, TrackDTO trackDTO);
      void update(String token, int playlistId, TrackDTO trackDTO);
+     void makeConnection();
+
 }

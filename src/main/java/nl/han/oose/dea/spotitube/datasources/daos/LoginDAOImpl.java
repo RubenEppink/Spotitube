@@ -16,6 +16,7 @@ public class LoginDAOImpl implements LoginDAO {
     private DataMapper<LoginDTO> loginDataMapper;
     private Connection connection;
 
+
     @Inject
     public void setLoginDataMapper(DataMapper<LoginDTO> loginDataMapper) {
         this.loginDataMapper = loginDataMapper;
@@ -24,14 +25,13 @@ public class LoginDAOImpl implements LoginDAO {
     @Inject
     public void setDbConnection(DBConnection dbConnection) {
         this.dbConnection = dbConnection;
-        makeConnection(dbConnection);
     }
 
-    private void makeConnection(DBConnection dbConnection) {
+    public void makeConnection() {
         try {
             connection = dbConnection.getConnection();
         } catch (SQLException e) {
-            
+
         }
     }
 

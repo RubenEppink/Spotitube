@@ -33,6 +33,13 @@ public class TrackDAOImpl implements TrackDAO {
         this.dbConnection = dbConnection;
     }
 
+    public void makeConnection() {
+        try {
+            connection = dbConnection.getConnection();
+        } catch (SQLException e) {
+
+        }
+    }
 
     @Override
     public TrackDTO get(int trackId) {
@@ -109,7 +116,6 @@ public class TrackDAOImpl implements TrackDAO {
     }
 
     private void executeUpdate(TrackDTO trackDTO) throws SQLException {
-        connection = dbConnection.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("UPDATE track SET offline_available = ? WHERE track_id = ?");
         preparedStatement.setBoolean(1, trackDTO.isOfflineAvailable());
         preparedStatement.setInt(2, trackDTO.getId());
@@ -117,14 +123,12 @@ public class TrackDAOImpl implements TrackDAO {
     }
 
     private ResultSet getTrackResultSet(int trackId) throws SQLException {
-        connection = dbConnection.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM track WHERE track_id = ?");
         preparedStatement.setInt(1, trackId);
         return preparedStatement.executeQuery();
     }
 
     private void executeAddToPlaylist(int playlistId, TrackDTO trackDTO) throws SQLException {
-        connection = dbConnection.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO track_in_playlist(track_id, playlist_id) VALUES(?, ?)");
         preparedStatement.setInt(1, trackDTO.getId());
         preparedStatement.setInt(2, playlistId);
@@ -132,7 +136,6 @@ public class TrackDAOImpl implements TrackDAO {
     }
 
     private void executeDelete(int playlistId, int trackId) throws SQLException {
-        connection = dbConnection.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM track_in_playlist " +
                 "WHERE playlist_id = ? AND track_id = ?");
         preparedStatement.setInt(1, playlistId);
@@ -141,7 +144,6 @@ public class TrackDAOImpl implements TrackDAO {
     }
 
     private ResultSet getAllResultSet(String token, int playlistId, String query) throws SQLException {
-        connection = dbConnection.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM track T\n" +
                 "WHERE" +
                 query +
