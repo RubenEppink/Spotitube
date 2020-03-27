@@ -2,7 +2,6 @@ package nl.han.oose.dea.spotitube.domains;
 
 import nl.han.oose.dea.spotitube.controllers.dtos.LoginDTO;
 import nl.han.oose.dea.spotitube.controllers.dtos.UserDTO;
-import nl.han.oose.dea.spotitube.controllers.exceptions.InvalidCredentialsException;
 import nl.han.oose.dea.spotitube.datasources.daos.interfaces.LoginDAO;
 import nl.han.oose.dea.spotitube.datasources.daos.interfaces.UserDAO;
 import nl.han.oose.dea.spotitube.domains.interfaces.LoginDomain;
@@ -27,8 +26,8 @@ public class LoginDomainImpl implements LoginDomain {
 
     @Override
     public UserDTO validateCredentials(LoginDTO loginDTO) {
-        if (DigestUtils.sha256Hex(loginDTO.getPassword()).equals(loginDAO.read(loginDTO.getUser()).getPassword())) {
-            return userDAO.read(loginDTO.getUser());
+        if (DigestUtils.sha256Hex(loginDTO.getPassword()).equals(loginDAO.getLoginInfo(loginDTO.getUser()).getPassword())) {
+            return userDAO.getUserInfo(loginDTO.getUser());
         } else {
             throw new NotAuthorizedException("Either the username and/or password wasn't correct!");
         }

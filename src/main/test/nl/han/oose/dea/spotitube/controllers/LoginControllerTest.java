@@ -3,7 +3,6 @@ package nl.han.oose.dea.spotitube.controllers;
 import nl.han.oose.dea.spotitube.domains.interfaces.LoginDomain;
 import nl.han.oose.dea.spotitube.controllers.dtos.LoginDTO;
 import nl.han.oose.dea.spotitube.controllers.dtos.UserDTO;
-import nl.han.oose.dea.spotitube.controllers.exceptions.InvalidCredentialsException;
 import nl.han.oose.dea.spotitube.domains.LoginDomainImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

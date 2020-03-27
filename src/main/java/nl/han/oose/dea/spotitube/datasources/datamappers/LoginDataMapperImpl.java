@@ -8,13 +8,14 @@ import java.sql.SQLException;
 public class LoginDataMapperImpl implements DataMapper<LoginDTO> {
     @Override
     public LoginDTO toDTO(ResultSet resultSet) throws SQLException {
+    LoginDTO loginDTO = new LoginDTO();
 
         while (resultSet.next()) {
-            return new LoginDTO(
+         loginDTO = new LoginDTO(
                     resultSet.getString("user_login"),
                     resultSet.getString("password")
             );
         }
-        return null;
+        return loginDTO;
     }
 }

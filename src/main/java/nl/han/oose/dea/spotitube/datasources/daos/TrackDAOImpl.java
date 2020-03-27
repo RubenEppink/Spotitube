@@ -7,6 +7,7 @@ import nl.han.oose.dea.spotitube.datasources.connections.DBConnection;
 import nl.han.oose.dea.spotitube.datasources.daos.interfaces.TrackDAO;
 
 import javax.inject.Inject;
+import javax.ws.rs.InternalServerErrorException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,13 +32,14 @@ public class TrackDAOImpl implements TrackDAO {
     @Inject
     public void setDbConnection(DBConnection dbConnection) {
         this.dbConnection = dbConnection;
+        makeConnection();
     }
 
     public void makeConnection() {
         try {
             connection = dbConnection.getConnection();
         } catch (SQLException e) {
-
+            throw new InternalServerErrorException();
         }
     }
 
@@ -46,12 +48,10 @@ public class TrackDAOImpl implements TrackDAO {
         try {
             return trackDataMapper.toDTO(getTrackResultSet(trackId));
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new InternalServerErrorException();
         } finally {
             dbConnection.closeConnection();
         }
-
-        return null;
     }
 
     @Override
@@ -60,11 +60,10 @@ public class TrackDAOImpl implements TrackDAO {
         try {
             return tracksDataMapper.toDTO(getAllResultSet(token, playlistId, " T.track_id NOT IN(\n"));
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new InternalServerErrorException();
         } finally {
             dbConnection.closeConnection();
         }
-        return null;
     }
 
     @Override
@@ -73,12 +72,10 @@ public class TrackDAOImpl implements TrackDAO {
         try {
             return tracksDataMapper.toDTO(getAllResultSet(token, playlistId, " T.track_id IN(\n"));
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new InternalServerErrorException();
         } finally {
             dbConnection.closeConnection();
         }
-
-        return null;
     }
 
     @Override
@@ -86,7 +83,7 @@ public class TrackDAOImpl implements TrackDAO {
         try {
             executeDelete(playlistId, trackId);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new InternalServerErrorException();
         } finally {
             dbConnection.closeConnection();
         }
@@ -97,7 +94,7 @@ public class TrackDAOImpl implements TrackDAO {
         try {
             executeAddToPlaylist(playlistId, trackDTO);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new InternalServerErrorException();
         } finally {
             dbConnection.closeConnection();
         }
@@ -109,7 +106,7 @@ public class TrackDAOImpl implements TrackDAO {
         try {
             executeUpdate(trackDTO);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new InternalServerErrorException();
         } finally {
             dbConnection.closeConnection();
         }

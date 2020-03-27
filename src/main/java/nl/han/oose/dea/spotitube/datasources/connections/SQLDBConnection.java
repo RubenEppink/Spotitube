@@ -8,15 +8,11 @@ import java.sql.SQLException;
 public class SQLDBConnection implements DBConnection {
     private DatabaseProperties databaseProperties;
 
-    public SQLDBConnection() {
-    }
-
     @Inject
     public void setDatabaseProperties(DatabaseProperties databaseProperties) {
         this.databaseProperties = databaseProperties;
     }
 
-    //wel of niet exception gelijk afvangen?
     @Override
     public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(databaseProperties.getConnectionString());
@@ -24,7 +20,7 @@ public class SQLDBConnection implements DBConnection {
 
     @Override
     public void closeConnection() {
-        //TODO
-
+        //connection.close();
+        //preparedStatement.close();
     }
 }

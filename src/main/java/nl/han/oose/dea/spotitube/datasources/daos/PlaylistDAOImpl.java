@@ -7,6 +7,7 @@ import nl.han.oose.dea.spotitube.datasources.connections.DBConnection;
 import nl.han.oose.dea.spotitube.datasources.daos.interfaces.PlaylistDAO;
 
 import javax.inject.Inject;
+import javax.ws.rs.InternalServerErrorException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,13 +26,14 @@ public class PlaylistDAOImpl implements PlaylistDAO {
     @Inject
     public void setDbConnection(DBConnection dbConnection) {
         this.dbConnection = dbConnection;
+        makeConnection();
     }
 
     public void makeConnection() {
         try {
             connection = dbConnection.getConnection();
         } catch (SQLException e) {
-
+            throw new InternalServerErrorException();
         }
     }
 
@@ -41,11 +43,10 @@ public class PlaylistDAOImpl implements PlaylistDAO {
         try {
             return playlistDataMapper.toDTO(getAllResultSet(token));
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new InternalServerErrorException();
         } finally {
             dbConnection.closeConnection();
         }
-        return null;
     }
 
     @Override
@@ -53,7 +54,7 @@ public class PlaylistDAOImpl implements PlaylistDAO {
         try {
             executeDelete(playlistId, token);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new InternalServerErrorException();
         } finally {
             dbConnection.closeConnection();
         }
@@ -64,7 +65,7 @@ public class PlaylistDAOImpl implements PlaylistDAO {
         try {
             executeCreate(token, playlistDTO);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new InternalServerErrorException();
         } finally {
             dbConnection.closeConnection();
         }
@@ -75,7 +76,7 @@ public class PlaylistDAOImpl implements PlaylistDAO {
         try {
             executeUpdate(token, playlistId, playlistDTO);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new InternalServerErrorException();
         } finally {
             dbConnection.closeConnection();
         }

@@ -25,13 +25,12 @@ class TrackDomainImplTest {
     @BeforeEach
     void setUp() {
         trackDomainImplUnderTest = new TrackDomainImpl();
-        mockedTrackDAO = mock(TrackDAOImpl.class);
+        mockedTrackDAO = mock(TrackDAO.class);
         trackDomainImplUnderTest.setTrackDAO(mockedTrackDAO);
         tracksDTO = new TracksDTO(new ArrayList<>());
         trackDTO = new TrackDTO(0, "title", "performer",
                 0, "album", 0, "publicationDate",
                 "description", false);
-
     }
 
     @Test

@@ -2,15 +2,16 @@ package nl.han.oose.dea.spotitube.datasources.datamappers;
 
 import nl.han.oose.dea.spotitube.controllers.dtos.TrackDTO;
 
+import javax.sound.midi.Track;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class TrackDataMapperImpl implements DataMapper<TrackDTO> {
     @Override
     public TrackDTO toDTO(ResultSet resultSet) throws SQLException {
-
+        TrackDTO trackDTO = new TrackDTO();
         while (resultSet.next()) {
-            return new TrackDTO(
+            trackDTO = new TrackDTO(
                     resultSet.getInt("track_id"),
                     resultSet.getString("title"),
                     resultSet.getString("performer"),
@@ -22,6 +23,6 @@ public class TrackDataMapperImpl implements DataMapper<TrackDTO> {
                     resultSet.getBoolean("offline_available")
             );
         }
-        return null;
+        return trackDTO;
     }
 }

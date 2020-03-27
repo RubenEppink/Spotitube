@@ -1,0 +1,8 @@
+nl.han.oose.dea.spotitube.controllers
+nl.han.oose.dea.spotitube.controllers.dtos
+nl.han.oose.dea.spotitube.datasources.connections
+nl.han.oose.dea.spotitube.datasources.daos
+nl.han.oose.dea.spotitube.datasources.daos.interfaces
+nl.han.oose.dea.spotitube.datasources.datamappers
+nl.han.oose.dea.spotitube.domains
+nl.han.oose.dea.spotitube.domains.interfaces

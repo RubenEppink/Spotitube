@@ -6,6 +6,7 @@ import nl.han.oose.dea.spotitube.datasources.connections.DBConnection;
 import nl.han.oose.dea.spotitube.datasources.daos.interfaces.UserDAO;
 
 import javax.inject.Inject;
+import javax.ws.rs.InternalServerErrorException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,26 +27,29 @@ public class UserDAOImpl implements UserDAO {
     @Inject
     public void setDbConnection(DBConnection dbConnection) {
         this.dbConnection = dbConnection;
+        makeConnection();
     }
 
     public void makeConnection() {
         try {
             connection = dbConnection.getConnection();
         } catch (SQLException e) {
+            throw new InternalServerErrorException();
 
         }
     }
 
     @Override
-    public UserDTO read(String userLogin) {
+    public UserDTO getUserInfo(String userLogin) {
         try {
             return userDataMapper.toDTO(getUserResultSet(userLogin));
         } catch (SQLException e) {
             LOGGER.warning(e.getSQLState());
+            throw new InternalServerErrorException();
+
         } finally {
             dbConnection.closeConnection();
         }
-        return null;
     }
 
     private ResultSet getUserResultSet(String userLogin) throws SQLException {

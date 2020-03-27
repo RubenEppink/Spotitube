@@ -21,7 +21,6 @@ public class PlaylistsDataMapperImpl implements DataMapper<PlaylistsDTO> {
                     resultSet.getBoolean("owner"),
                     new ArrayList<>()));
         }
-        //TODO calculate length (in java or sql?)
         return new PlaylistsDTO(playlists, 7549);
     }
 }
